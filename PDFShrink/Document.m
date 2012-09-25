@@ -34,6 +34,95 @@
     PDFDocument *pdfDoc = [[PDFDocument alloc] initWithURL: [self fileURL]];
     
     [_pdfView setDocument: pdfDoc];
+
+    // とりあえずテスト
+    
+    // 新しいPDF作成
+    PDFDocument *newPdf = [[PDFDocument alloc] init];
+    
+    // ページ数を取得
+    NSUInteger pageCount = [pdfDoc pageCount];
+    
+    // ページをループ
+    for (NSUInteger i = 0; i < pageCount; i++) {
+        // ページを取りだす
+        PDFPage *page = [pdfDoc pageAtIndex:i];
+        
+        // ページをPDFイメージに
+        NSData *pageData = [page dataRepresentation];
+        NSPDFImageRep *pdfImageRep = [[NSPDFImageRep alloc] initWithData: pageData];
+        
+        // 幅と高さ
+        NSSize size;
+        size.width = [pdfImageRep pixelsWide] * 2;
+        size.height = [pdfImageRep pixelsHigh] * 2;
+        
+        // 幅と高さを調整
+        // 754x584 以内に
+        if ( size.width * 754 > size.height * 584) {
+            // 横長
+            if ( size.width > 584 ) {
+                size.height = size.height * 584 / size.width;
+                size.width = 584;
+            }
+        } else {
+            // 縦長
+            if ( size.height > 754 ) {
+                size.width = size.width * 754 / size.height;
+                size.height = 754;
+            }
+        }
+        
+        // ビットマップイメージを作成
+        // 2ページ目以降はモノクロ化
+        NSBitmapImageRep *bitmapRep =
+            [[NSBitmapImageRep alloc]
+                initWithBitmapDataPlanes: NULL
+                 pixelsWide:              size.width
+                 pixelsHigh:              size.height
+                 bitsPerSample:           8
+                 samplesPerPixel:         1 //( i == 0 ? 3 : 1)
+                 hasAlpha:                NO
+                 isPlanar:                NO
+                 colorSpaceName:          NSCalibratedWhiteColorSpace //( i == 0 ? NSCalibratedRGBColorSpace : NSCalibratedWhiteColorSpace )
+                 bytesPerRow:             0
+                 bitsPerPixel:            0];
+        
+        // グラフィックコンテクストの状態を保存
+        [NSGraphicsContext saveGraphicsState];
+        
+        // 新しいコンテクストを作成し、カレントに設定
+        NSGraphicsContext *context = [NSGraphicsContext graphicsContextWithBitmapImageRep: bitmapRep];
+        [NSGraphicsContext setCurrentContext: context];
+        
+        // PDFページのイメージを描画
+        [pdfImageRep drawInRect: NSMakeRect( 0, 0, size.width, size.height)];
+        
+        // コンテクストを元に戻す
+        [NSGraphicsContext restoreGraphicsState];
+        
+        // JPEGの圧縮率を設定
+        NSDictionary *propJpeg =
+            [NSDictionary dictionaryWithObjectsAndKeys:
+                [NSNumber numberWithFloat: 0.8],
+                NSImageCompressionFactor,
+                nil];
+        
+        // JPEGデータに変換
+        NSData *dataJpeg = [bitmapRep representationUsingType: NSJPEGFileType properties: propJpeg];
+        
+        // できたPDFからイメージに
+        NSImage *newImage = [[NSImage alloc] initWithData: dataJpeg];
+        
+        // イメージをPDFページに
+        PDFPage *newPage = [[PDFPage alloc] initWithImage: newImage];
+        
+        // 新しいページをPDFに追加
+        [newPdf insertPage: newPage atIndex: [newPdf pageCount]];
+    }
+    
+    // PDF を書き出し
+    [newPdf writeToFile: @"/Users/sent/Desktop/out.pdf"];
 }
 
 + (BOOL)autosavesInPlace
