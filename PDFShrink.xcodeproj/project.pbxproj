@@ -19,6 +19,7 @@
 		2FB2D8411611D250005BBFEF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2FB2D83F1611D250005BBFEF /* InfoPlist.strings */; };
 		2FB2D8441611D250005BBFEF /* PDFShrinkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB2D8431611D250005BBFEF /* PDFShrinkTests.m */; };
 		2FB2D8511611D5B4005BBFEF /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB2D8501611D5B4005BBFEF /* Quartz.framework */; };
+		2FB2D8581611F0DA005BBFEF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB2D8571611F0DA005BBFEF /* AppDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,8 @@
 		2FB2D8421611D250005BBFEF /* PDFShrinkTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDFShrinkTests.h; sourceTree = "<group>"; };
 		2FB2D8431611D250005BBFEF /* PDFShrinkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PDFShrinkTests.m; sourceTree = "<group>"; };
 		2FB2D8501611D5B4005BBFEF /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
+		2FB2D8561611F0DA005BBFEF /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		2FB2D8571611F0DA005BBFEF /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +123,8 @@
 		2FB2D81C1611D250005BBFEF /* PDFShrink */ = {
 			isa = PBXGroup;
 			children = (
+				2FB2D8561611F0DA005BBFEF /* AppDelegate.h */,
+				2FB2D8571611F0DA005BBFEF /* AppDelegate.m */,
 				2FB2D8281611D250005BBFEF /* Document.h */,
 				2FB2D8291611D250005BBFEF /* Document.m */,
 				2FB2D82B1611D250005BBFEF /* Document.xib */,
@@ -271,6 +276,7 @@
 			files = (
 				2FB2D8231611D250005BBFEF /* main.m in Sources */,
 				2FB2D82A1611D250005BBFEF /* Document.m in Sources */,
+				2FB2D8581611F0DA005BBFEF /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,6 +470,7 @@
 				2FB2D8491611D250005BBFEF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2FB2D84A1611D250005BBFEF /* Build configuration list for PBXNativeTarget "PDFShrinkTests" */ = {
 			isa = XCConfigurationList;
@@ -472,6 +479,7 @@
 				2FB2D84C1611D250005BBFEF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
