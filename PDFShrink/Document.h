@@ -7,7 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
+//#import <PDFKit/PDFKit.h>
+#import <Quartz/Quartz.h>
 
 @interface Document : NSDocument
-
+{
+    IBOutlet id _pdfView;
+}
 @end
