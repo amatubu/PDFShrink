@@ -31,6 +31,22 @@
     [super windowControllerDidLoadNib:aController];
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
 
+    // 設定を得る
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSInteger maxWidth;
+    NSInteger maxHeight;
+    
+    maxWidth = [defaults integerForKey: @"maxWidth"];
+    maxHeight = [defaults integerForKey: @"maxHeight"];
+    if ( maxWidth <= 0 ) {
+        maxWidth = 584;
+        [defaults setInteger: maxWidth forKey: @"maxWidth"];
+    }
+    if ( maxHeight <= 0 ) {
+        maxHeight = 754;
+        [defaults setInteger: maxHeight forKey: @"maxHeight"];
+    }
+    
     PDFDocument *pdfDoc = [[PDFDocument alloc] initWithURL: [self fileURL]];
     
     [_pdfView setDocument: pdfDoc];
@@ -59,17 +75,17 @@
         
         // 幅と高さを調整
         // 754x584 以内に
-        if ( size.width * 754 > size.height * 584) {
+        if ( size.width * maxHeight > size.height * maxWidth) {
             // 横長
-            if ( size.width > 584 ) {
-                size.height = size.height * 584 / size.width;
-                size.width = 584;
+            if ( size.width > maxWidth ) {
+                size.height = size.height * maxWidth / size.width;
+                size.width = maxWidth;
             }
         } else {
             // 縦長
-            if ( size.height > 754 ) {
-                size.width = size.width * 754 / size.height;
-                size.height = 754;
+            if ( size.height > maxHeight ) {
+                size.width = size.width * maxHeight / size.height;
+                size.height = maxHeight;
             }
         }
         
