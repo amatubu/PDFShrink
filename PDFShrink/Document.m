@@ -90,19 +90,37 @@
         }
         
         // ビットマップイメージを作成
-        // 2ページ目以降はモノクロ化
-        NSBitmapImageRep *bitmapRep =
-            [[NSBitmapImageRep alloc]
-                initWithBitmapDataPlanes: NULL
-                 pixelsWide:              size.width
-                 pixelsHigh:              size.height
-                 bitsPerSample:           8
-                 samplesPerPixel:         1 //( i == 0 ? 3 : 1)
-                 hasAlpha:                NO
-                 isPlanar:                NO
-                 colorSpaceName:          NSCalibratedWhiteColorSpace //( i == 0 ? NSCalibratedRGBColorSpace : NSCalibratedWhiteColorSpace )
-                 bytesPerRow:             0
-                 bitsPerPixel:            0];
+        NSBitmapImageRep *bitmapRep;
+        
+        if ( i == 0 ) {
+            bitmapRep =
+                [[NSBitmapImageRep alloc]
+                    initWithBitmapDataPlanes: NULL
+                    pixelsWide:              size.width
+                    pixelsHigh:              size.height
+                    bitsPerSample:           8
+                    samplesPerPixel:         4
+                    hasAlpha:                YES
+                    isPlanar:                NO
+                    colorSpaceName:          NSCalibratedRGBColorSpace
+                    bitmapFormat:            NSAlphaFirstBitmapFormat
+                    bytesPerRow:             0
+                    bitsPerPixel:            0];
+        } else {
+            // 2ページ目以降はモノクロ化
+            bitmapRep =
+                [[NSBitmapImageRep alloc]
+                    initWithBitmapDataPlanes: NULL
+                    pixelsWide:              size.width
+                    pixelsHigh:              size.height
+                    bitsPerSample:           8
+                    samplesPerPixel:         1
+                    hasAlpha:                NO
+                    isPlanar:                NO
+                    colorSpaceName:          NSCalibratedWhiteColorSpace
+                    bytesPerRow:             0
+                    bitsPerPixel:            0];
+        }
         
         // グラフィックコンテクストの状態を保存
         [NSGraphicsContext saveGraphicsState];
