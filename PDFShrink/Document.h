@@ -13,5 +13,7 @@
 @interface Document : NSDocument
 {
     IBOutlet id _pdfView;
+    IBOutlet id _progressPanel;
+    IBOutlet id _progressIndicator;
 }
 @end
