@@ -15,5 +15,7 @@
     IBOutlet id _pdfView;
     IBOutlet id _progressPanel;
     IBOutlet id _progressIndicator;
+    IBOutlet id window;
 }
+- (IBAction)shrink:(id)sender;
 @end

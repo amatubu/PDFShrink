@@ -31,6 +31,14 @@
     [super windowControllerDidLoadNib:aController];
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
 
+    PDFDocument *pdfDoc = [[PDFDocument alloc] initWithURL: [self fileURL]];
+    
+    [_pdfView setDocument: pdfDoc];
+
+}
+
+// PDFの画像を縮小する
+- (IBAction)shrink:(id)sender {
     // 設定を得る
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSInteger maxWidth;
@@ -47,11 +55,16 @@
         [defaults setInteger: maxHeight forKey: @"maxHeight"];
     }
     
-    PDFDocument *pdfDoc = [[PDFDocument alloc] initWithURL: [self fileURL]];
+	[NSApp beginSheet:_progressPanel
+       modalForWindow:window
+        modalDelegate:self
+       didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
+          contextInfo:nil];
+	[_progressIndicator setDoubleValue:0.0];
     
-    [_pdfView setDocument: pdfDoc];
-
     // とりあえずテスト
+    PDFDocument *pdfDoc = [_pdfView document];
+    // [[[self image] representations] lastObject];
     
     // 新しいPDF作成
     PDFDocument *newPdf = [[PDFDocument alloc] init];
@@ -94,32 +107,32 @@
         
         if ( i == 0 ) {
             bitmapRep =
-                [[NSBitmapImageRep alloc]
-                    initWithBitmapDataPlanes: NULL
-                    pixelsWide:              size.width
-                    pixelsHigh:              size.height
-                    bitsPerSample:           8
-                    samplesPerPixel:         4
-                    hasAlpha:                YES
-                    isPlanar:                NO
-                    colorSpaceName:          NSCalibratedRGBColorSpace
-                    bitmapFormat:            NSAlphaFirstBitmapFormat
-                    bytesPerRow:             0
-                    bitsPerPixel:            0];
+            [[NSBitmapImageRep alloc]
+             initWithBitmapDataPlanes: NULL
+             pixelsWide:              size.width
+             pixelsHigh:              size.height
+             bitsPerSample:           8
+             samplesPerPixel:         4
+             hasAlpha:                YES
+             isPlanar:                NO
+             colorSpaceName:          NSCalibratedRGBColorSpace
+             bitmapFormat:            NSAlphaFirstBitmapFormat
+             bytesPerRow:             0
+             bitsPerPixel:            0];
         } else {
             // 2ページ目以降はモノクロ化
             bitmapRep =
-                [[NSBitmapImageRep alloc]
-                    initWithBitmapDataPlanes: NULL
-                    pixelsWide:              size.width
-                    pixelsHigh:              size.height
-                    bitsPerSample:           8
-                    samplesPerPixel:         1
-                    hasAlpha:                NO
-                    isPlanar:                NO
-                    colorSpaceName:          NSCalibratedWhiteColorSpace
-                    bytesPerRow:             0
-                    bitsPerPixel:            0];
+            [[NSBitmapImageRep alloc]
+             initWithBitmapDataPlanes: NULL
+             pixelsWide:              size.width
+             pixelsHigh:              size.height
+             bitsPerSample:           8
+             samplesPerPixel:         1
+             hasAlpha:                NO
+             isPlanar:                NO
+             colorSpaceName:          NSCalibratedWhiteColorSpace
+             bytesPerRow:             0
+             bitsPerPixel:            0];
         }
         
         // グラフィックコンテクストの状態を保存
@@ -137,10 +150,10 @@
         
         // JPEGの圧縮率を設定
         NSDictionary *propJpeg =
-            [NSDictionary dictionaryWithObjectsAndKeys:
-                [NSNumber numberWithFloat: 0.8],
-                NSImageCompressionFactor,
-                nil];
+        [NSDictionary dictionaryWithObjectsAndKeys:
+         [NSNumber numberWithFloat: 0.8],
+         NSImageCompressionFactor,
+         nil];
         
         // JPEGデータに変換
         NSData *dataJpeg = [bitmapRep representationUsingType: NSJPEGFileType properties: propJpeg];
@@ -153,10 +166,21 @@
         
         // 新しいページをPDFに追加
         [newPdf insertPage: newPage atIndex: [newPdf pageCount]];
+        
+        // プログレスバーを進める
+        [_progressIndicator setDoubleValue: ((double)i) / ((double)pageCount)];
     }
     
     // PDF を書き出し
     [newPdf writeToFile: @"/Users/sent/Desktop/out.pdf"];
+
+    
+	[NSApp endSheet:_progressPanel];
+}
+
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+    [sheet close];
 }
 
 + (BOOL)autosavesInPlace

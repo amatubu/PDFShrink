@@ -70,7 +70,6 @@
 											<string key="NSFrameSize">{431, 482}</string>
 											<reference key="NSSuperview" ref="775869433"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView"/>
 											<string key="NSReuseIdentifierKey">_NS:9</string>
 											<int key="DisplayMode">1</int>
 											<bool key="PageBreaks">YES</bool>
@@ -101,7 +100,6 @@
 											<string key="NSFrameSize">{145, 482}</string>
 											<reference key="NSSuperview" ref="52019707"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView"/>
 											<string key="NSReuseIdentifierKey">_NS:9</string>
 											<float key="ThumbSizeWidth">128</float>
 											<float key="ThumbSizeHeight">128</float>
@@ -163,8 +161,8 @@
 							<reference key="NSNextKeyView" ref="247185343"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<string key="NSHuggingPriority">{250, 250}</string>
-							<int key="NSpiFlags">16399</int>
-							<double key="NSMaxValue">100</double>
+							<int key="NSpiFlags">16397</int>
+							<double key="NSMaxValue">1</double>
 						</object>
 						<object class="NSButton" id="247185343">
 							<reference key="NSNextResponder" ref="400883348"/>
@@ -172,7 +170,6 @@
 							<string key="NSFrame">{{293, 12}, {68, 32}}</string>
 							<reference key="NSSuperview" ref="400883348"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="929333099">
@@ -813,10 +810,22 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">Document</string>
 					<string key="superclassName">NSDocument</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">shrink:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">shrink:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">shrink:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="_pdfView">id</string>
 						<string key="_progressIndicator">id</string>
 						<string key="_progressPanel">id</string>
+						<string key="window">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="_pdfView">
@@ -829,6 +838,10 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="_progressPanel">
 							<string key="name">_progressPanel</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="window">
+							<string key="name">window</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
