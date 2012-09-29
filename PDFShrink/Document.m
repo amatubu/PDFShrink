@@ -75,7 +75,7 @@
 	[_progressIndicator setDoubleValue:0.0];
     
     // とりあえずテスト
-    PDFDocument *pdfDoc = [_pdfView document];
+    PDFDocument *pdfDoc = [arg objectForKey: @"pdfDoc"];
     // [[[self image] representations] lastObject];
     
     // 新しいPDF作成
@@ -184,7 +184,7 @@
     }
     
     // PDF を書き出し
-    [newPdf writeToFile: @"/Users/sent/Desktop/out.pdf"];
+    [newPdf writeToFile: [arg objectForKey: @"outFile"]];
     
 	[NSApp endSheet:_progressPanel];
 }
