@@ -58,6 +58,7 @@
 		2FB2D8561611F0DA005BBFEF /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2FB2D8571611F0DA005BBFEF /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		2FB2D86C1616F762005BBFEF /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
+		2FB2D86E1616F942005BBFEF /* ReadMe.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = ReadMe.rtf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +86,7 @@
 		2FB2D8071611D250005BBFEF = {
 			isa = PBXGroup;
 			children = (
+				2FB2D86E1616F942005BBFEF /* ReadMe.rtf */,
 				2FB2D81C1611D250005BBFEF /* PDFShrink */,
 				2FB2D83C1611D250005BBFEF /* PDFShrinkTests */,
 				2FB2D8151611D250005BBFEF /* Frameworks */,
