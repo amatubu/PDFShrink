@@ -116,7 +116,7 @@
           contextInfo:nil];
 	[_progressIndicator setDoubleValue:0.0];
     
-    // とりあえずテスト
+    // PDFドキュメントを得る
     PDFDocument *pdfDoc = [arg objectForKey: @"pdfDoc"];
     // [[[self image] representations] lastObject];
     
