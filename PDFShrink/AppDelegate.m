@@ -15,4 +15,9 @@
     return NO;
 }
 
+- (IBAction) savePreferences:(id)sender;
+{
+    [_preferencesPanel close];
+}
+
 @end

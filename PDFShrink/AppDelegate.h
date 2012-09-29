@@ -9,5 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface AppDelegate : NSObject
-
+{
+    IBOutlet id _preferencesPanel;
+}
+-(IBAction)savePreferences:(id)sender;
 @end
