@@ -39,18 +39,27 @@
 
 // PDFの画像を縮小する
 - (IBAction)shrink:(id)sender {
-    // スレッドに渡すパラメータ
+    // ファイル名
+    NSString *name = [[self fileURL] path];
+
+    // 新しいファイル名の候補
+    NSString *newName = [name stringByReplacingOccurrencesOfString: @".pdf"
+                                                        withString: @"_l.pdf"
+                                                           options: NSCaseInsensitiveSearch
+                                                             range: NSMakeRange(0, [name length])];
+    
+    // スレッドに渡すパラメータを作成
     NSDictionary *arg = [NSDictionary dictionaryWithObjectsAndKeys:
-                         [_pdfView document], @"pdfDoc",
-                         @"/Users/sent/Desktop/out.pdf", @"outFile",
-                         nil];
+                        [_pdfView document], @"pdfDoc",
+                        newName, @"outFile",
+                        nil];
     
     // 中断するかどうか
     needAbort = FALSE;
     
     // 新しいスレッドを作成して縮小を開始する
     [NSThread detachNewThreadSelector:@selector(shrinkPDF:)
-                             toTarget:self withObject:arg];
+                            toTarget:self withObject:arg];
 }
 
 // PDF画像の縮小を中止する
@@ -76,9 +85,12 @@
         [defaults setInteger: maxHeight forKey: @"maxHeight"];
     }
     
+    // フロントウィンドウ
+    NSWindow *myWindow = [[[self windowControllers] objectAtIndex: 0] window];
+    
     // プログレスバーを用意する
 	[NSApp beginSheet:_progressPanel
-       modalForWindow:window
+       modalForWindow:myWindow
         modalDelegate:self
        didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
           contextInfo:nil];
