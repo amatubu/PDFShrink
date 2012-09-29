@@ -67,6 +67,7 @@
         [defaults setInteger: maxHeight forKey: @"maxHeight"];
     }
     
+    // プログレスバーを用意する
 	[NSApp beginSheet:_progressPanel
        modalForWindow:window
         modalDelegate:self
@@ -118,6 +119,7 @@
         NSBitmapImageRep *bitmapRep;
         
         if ( i == 0 ) {
+            // 1ページ目はカラーのまま
             bitmapRep =
             [[NSBitmapImageRep alloc]
              initWithBitmapDataPlanes: NULL
@@ -186,9 +188,11 @@
     // PDF を書き出し
     [newPdf writeToFile: [arg objectForKey: @"outFile"]];
     
+    // プログレスバーを閉じる
 	[NSApp endSheet:_progressPanel];
 }
 
+// プログレスバーのシートを閉じる
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
     [sheet close];
