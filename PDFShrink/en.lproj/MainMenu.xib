@@ -264,7 +264,8 @@
 								<object class="NSMenuItem" id="290623739">
 									<reference key="NSMenu" ref="720053764"/>
 									<string key="NSTitle">Shrink...</string>
-									<string key="NSKeyEquiv"/>
+									<string key="NSKeyEquiv">e</string>
+									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="1033313550"/>
 									<reference key="NSMixedImage" ref="310636482"/>
@@ -1447,6 +1448,7 @@
 							<string key="NSFrame">{{243, 13}, {78, 32}}</string>
 							<reference key="NSSuperview" ref="269259629"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="1072225584">
