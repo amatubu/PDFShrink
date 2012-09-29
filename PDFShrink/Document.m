@@ -43,23 +43,46 @@
     NSString *name = [[self fileURL] path];
 
     // 新しいファイル名の候補
-    NSString *newName = [name stringByReplacingOccurrencesOfString: @".pdf"
-                                                        withString: @"_l.pdf"
-                                                           options: NSCaseInsensitiveSearch
-                                                             range: NSMakeRange(0, [name length])];
+    NSString *newPath = [name stringByDeletingLastPathComponent];
+    NSString *newName = [name lastPathComponent];
+    newName = [newName
+               stringByReplacingOccurrencesOfString: @".pdf"
+                                         withString: @"_l.pdf"
+                                            options: NSCaseInsensitiveSearch
+                                              range: NSMakeRange(0, [newName length] )
+               ];
     
-    // スレッドに渡すパラメータを作成
-    NSDictionary *arg = [NSDictionary dictionaryWithObjectsAndKeys:
-                        [_pdfView document], @"pdfDoc",
-                        newName, @"outFile",
-                        nil];
+    // フロントウィンドウ
+    NSWindow *myWindow = [[[self windowControllers] objectAtIndex: 0] window];
+
+    // 保存ダイアログの表示
+    NSSavePanel *panel = [NSSavePanel savePanel];
     
-    // 中断するかどうか
-    needAbort = FALSE;
+    // デフォルトのファイル名とパス
+    [panel setNameFieldStringValue: newName];
+    [panel setDirectoryURL: [NSURL fileURLWithPath: newPath]];
     
-    // 新しいスレッドを作成して縮小を開始する
-    [NSThread detachNewThreadSelector:@selector(shrinkPDF:)
-                            toTarget:self withObject:arg];
+    // 保存ダイアログの処理
+    [panel beginSheetModalForWindow: myWindow
+     completionHandler:^(NSInteger result) {
+         if ( result == NSFileHandlingPanelOKButton ) {
+             // ファイル名を得る
+             NSURL *file = [panel URL];
+             NSString *newFile = [file path];
+             
+             [panel close];
+             
+             NSDictionary *arg = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  [_pdfView document], @"pdfDoc",
+                                  newFile, @"outFile",
+                                  myWindow, @"frontWindow",
+                                  nil];
+             needAbort = FALSE;
+             [NSThread detachNewThreadSelector:@selector(shrinkPDF:)
+                                      toTarget:self
+                                    withObject:arg];
+         }
+     }];
 }
 
 // PDF画像の縮小を中止する
@@ -85,12 +108,9 @@
         [defaults setInteger: maxHeight forKey: @"maxHeight"];
     }
     
-    // フロントウィンドウ
-    NSWindow *myWindow = [[[self windowControllers] objectAtIndex: 0] window];
-    
     // プログレスバーを用意する
 	[NSApp beginSheet:_progressPanel
-       modalForWindow:myWindow
+       modalForWindow:[arg objectForKey: @"frontWindow"]
         modalDelegate:self
        didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
           contextInfo:nil];
