@@ -29,9 +29,14 @@
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController
 {
     [super windowControllerDidLoadNib:aController];
-    // Add any code here that needs to be executed once the windowController has loaded the document's window.
-
-    PDFDocument *pdfDoc = [[PDFDocument alloc] initWithURL: [self fileURL]];
+    
+    PDFDocument *pdfDoc;
+    
+    if ( [self fileURL] ) {
+        pdfDoc = [[PDFDocument alloc] initWithURL: [self fileURL]];
+    } else {
+        pdfDoc = [[PDFDocument alloc] init];
+    }
     
     [_pdfView setDocument: pdfDoc];
 
