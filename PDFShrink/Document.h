@@ -16,6 +16,9 @@
     IBOutlet id _progressPanel;
     IBOutlet id _progressIndicator;
     IBOutlet id window;
+    
+    BOOL needAbort;
 }
 - (IBAction)shrink:(id)sender;
+- (IBAction)abortShrink:(id)sender;
 @end

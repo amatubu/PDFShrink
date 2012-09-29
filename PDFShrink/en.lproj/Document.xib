@@ -140,7 +140,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSWindowTemplate" id="794925679">
-				<int key="NSWindowStyleMask">23</int>
+				<int key="NSWindowStyleMask">21</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{130, 59}, {375, 58}}</string>
 				<int key="NSWTFlags">-1535638528</int>
@@ -237,6 +237,14 @@
 						<reference key="destination" ref="763623341"/>
 					</object>
 					<int key="connectionID">100067</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">abortShrink:</string>
+						<reference key="source" ref="512844837"/>
+						<reference key="destination" ref="247185343"/>
+					</object>
+					<int key="connectionID">100068</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -803,24 +811,27 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">100067</int>
+			<int key="maxID">100068</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
 					<string key="className">Document</string>
 					<string key="superclassName">NSDocument</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">shrink:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">shrink:</string>
-						<object class="IBActionInfo" key="NS.object.0">
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="abortShrink:">id</string>
+						<string key="shrink:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="abortShrink:">
+							<string key="name">abortShrink:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="shrink:">
 							<string key="name">shrink:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-					</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="_pdfView">id</string>
 						<string key="_progressIndicator">id</string>

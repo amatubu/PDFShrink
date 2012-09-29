@@ -39,14 +39,23 @@
 
 // PDFの画像を縮小する
 - (IBAction)shrink:(id)sender {
+    // スレッドに渡すパラメータ
     NSDictionary *arg = [NSDictionary dictionaryWithObjectsAndKeys:
                          [_pdfView document], @"pdfDoc",
                          @"/Users/sent/Desktop/out.pdf", @"outFile",
                          nil];
     
-//    [self shrinkPDF:arg];
+    // 中断するかどうか
+    needAbort = FALSE;
+    
+    // 新しいスレッドを作成して縮小を開始する
     [NSThread detachNewThreadSelector:@selector(shrinkPDF:)
                              toTarget:self withObject:arg];
+}
+
+// PDF画像の縮小を中止する
+- (IBAction)abortShrink:(id)sender {
+    needAbort = YES;
 }
 
 - (void)shrinkPDF:(NSDictionary *)arg
@@ -126,8 +135,8 @@
              pixelsWide:              size.width
              pixelsHigh:              size.height
              bitsPerSample:           8
-             samplesPerPixel:         4
-             hasAlpha:                YES
+             samplesPerPixel:         4 // ARGB
+             hasAlpha:                YES // アルファチャンネルあり
              isPlanar:                NO
              colorSpaceName:          NSCalibratedRGBColorSpace
              bitmapFormat:            NSAlphaFirstBitmapFormat
@@ -141,8 +150,8 @@
              pixelsWide:              size.width
              pixelsHigh:              size.height
              bitsPerSample:           8
-             samplesPerPixel:         1
-             hasAlpha:                NO
+             samplesPerPixel:         1 // モノクロ
+             hasAlpha:                NO // アルファチャンネルなし
              isPlanar:                NO
              colorSpaceName:          NSCalibratedWhiteColorSpace
              bytesPerRow:             0
@@ -183,10 +192,15 @@
         
         // プログレスバーを進める
         [_progressIndicator setDoubleValue: ((double)i) / ((double)pageCount)];
+        
+        // 中断なら止める
+        if ( needAbort ) break;
     }
     
-    // PDF を書き出し
-    [newPdf writeToFile: [arg objectForKey: @"outFile"]];
+    if ( !needAbort ) {
+        // PDF を書き出し
+        [newPdf writeToFile: [arg objectForKey: @"outFile"]];
+    }
     
     // プログレスバーを閉じる
 	[NSApp endSheet:_progressPanel];
