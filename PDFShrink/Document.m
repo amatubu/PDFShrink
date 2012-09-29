@@ -39,6 +39,18 @@
 
 // PDFの画像を縮小する
 - (IBAction)shrink:(id)sender {
+    NSDictionary *arg = [NSDictionary dictionaryWithObjectsAndKeys:
+                         [_pdfView document], @"pdfDoc",
+                         @"/Users/sent/Desktop/out.pdf", @"outFile",
+                         nil];
+    
+//    [self shrinkPDF:arg];
+    [NSThread detachNewThreadSelector:@selector(shrinkPDF:)
+                             toTarget:self withObject:arg];
+}
+
+- (void)shrinkPDF:(NSDictionary *)arg
+{
     // 設定を得る
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSInteger maxWidth;
@@ -173,7 +185,6 @@
     
     // PDF を書き出し
     [newPdf writeToFile: @"/Users/sent/Desktop/out.pdf"];
-
     
 	[NSApp endSheet:_progressPanel];
 }
