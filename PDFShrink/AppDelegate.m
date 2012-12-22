@@ -45,14 +45,8 @@
 
 - (IBAction) showPreferences:(id)sender
 {
-//    NSWindowController *preferncesPanel = [[NSWindowController alloc] init:@"MainMenu"];
-//    [preferncesPanel showWindow:self];
     // 電子書籍リーダー設定をメニューに反映
     for ( NSDictionary *reader in eBookReaders ) {
-        NSLog( @"name:%@", [reader objectForKey:@"name"] );
-        NSLog( @"width:%@", [reader objectForKey:@"width"] );
-        NSLog( @"height:%@", [reader objectForKey:@"height"] );
-        
         [_eBookList addItemWithTitle:[reader objectForKey:@"name"]];
     }
 
@@ -63,7 +57,6 @@
 - (IBAction) selectEBookReader:(id)sender
 {
     NSInteger selectedItem = [_eBookList indexOfSelectedItem];
-    NSLog( @"index:%ld", selectedItem );
     
     // 1行目は無視
     if ( selectedItem > 0 ) {
