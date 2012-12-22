@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F4868A5168623D60035855F /* Changes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2F4868A4168623D60035855F /* Changes.rtf */; };
 		2FA1BA1B168603080094C2CF /* EBookReader.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FA1BA1A168603080094C2CF /* EBookReader.plist */; };
 		2FB2D8171611D250005BBFEF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB2D8161611D250005BBFEF /* Cocoa.framework */; };
 		2FB2D8211611D250005BBFEF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2FB2D81F1611D250005BBFEF /* InfoPlist.strings */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2F4868A4168623D60035855F /* Changes.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Changes.rtf; sourceTree = "<group>"; };
 		2FA1BA1A168603080094C2CF /* EBookReader.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EBookReader.plist; sourceTree = "<group>"; };
 		2FB2D8121611D250005BBFEF /* PDFShrink.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDFShrink.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FB2D8161611D250005BBFEF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -89,6 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				2FB2D86E1616F942005BBFEF /* ReadMe.rtf */,
+				2F4868A4168623D60035855F /* Changes.rtf */,
 				2FB2D81C1611D250005BBFEF /* PDFShrink */,
 				2FB2D83C1611D250005BBFEF /* PDFShrinkTests */,
 				2FB2D8151611D250005BBFEF /* Frameworks */,
@@ -250,6 +253,7 @@
 				2FB2D8301611D250005BBFEF /* MainMenu.xib in Resources */,
 				2FB2D86D1616F762005BBFEF /* icon.icns in Resources */,
 				2FA1BA1B168603080094C2CF /* EBookReader.plist in Resources */,
+				2F4868A5168623D60035855F /* Changes.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,27 +12,27 @@
 	</dict>
 	<dict>
 		<key>name</key>
-		<string>iPad mini</string>
+		<string>Kindle Fire HD (7&quot;)</string>
 		<key>width</key>
-		<integer>768</integer>
+		<integer>800</integer>
+		<key>height</key>
+		<integer>1280</integer>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Kindle Fire</string>
+		<key>width</key>
+		<integer>600</integer>
 		<key>height</key>
 		<integer>1024</integer>
 	</dict>
 	<dict>
 		<key>name</key>
-		<string>Nexus 7</string>
+		<string>Sony Reader PRS-T2/PRS-G1/PRS-T1</string>
 		<key>width</key>
-		<integer>800</integer>
+		<integer>584</integer>
 		<key>height</key>
-		<integer>1200</integer>
-	</dict>
-	<dict>
-		<key>name</key>
-		<string>Sony Reader PRS-T2</string>
-		<key>width</key>
-		<integer>600</integer>
-		<key>height</key>
-		<integer>800</integer>
+		<integer>754</integer>
 	</dict>
 	<dict>
 		<key>name</key>
@@ -44,11 +44,43 @@
 	</dict>
 	<dict>
 		<key>name</key>
-		<string>Kobo touch</string>
+		<string>Kobo touch/Kobo mini</string>
 		<key>width</key>
 		<integer>600</integer>
 		<key>height</key>
+		<integer>750</integer>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>iPad 2/iPad mini</string>
+		<key>width</key>
+		<integer>768</integer>
+		<key>height</key>
+		<integer>1024</integer>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>iPad Retina(3rd/4th)</string>
+		<key>width</key>
+		<integer>1536</integer>
+		<key>height</key>
+		<integer>2048</integer>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>iPad Retina(3rd/4th) two-page spread</string>
+		<key>width</key>
+		<integer>1024</integer>
+		<key>height</key>
+		<real>1</real>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Nexus 7</string>
+		<key>width</key>
 		<integer>800</integer>
+		<key>height</key>
+		<integer>1280</integer>
 	</dict>
 </array>
 </plist>

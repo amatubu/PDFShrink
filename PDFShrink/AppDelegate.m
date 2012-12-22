@@ -33,15 +33,7 @@
         // 電子書籍リーダー設定を取得
         NSBundle *bundle = [NSBundle mainBundle];
         NSString *path = [bundle pathForResource:@"EBookReader" ofType:@"plist"];
-        NSArray *readers = [NSArray arrayWithContentsOfFile:path];
-        
-        for ( NSDictionary *reader in readers ) {
-            NSLog( @"name:%@", [reader objectForKey:@"name"] );
-            NSLog( @"width:%@", [reader objectForKey:@"width"] );
-            NSLog( @"height:%@", [reader objectForKey:@"height"] );
-            
-            [_eBookList addItemWithTitle:[reader objectForKey:@"name"]];
-        }
+        eBookReaders = [NSArray arrayWithContentsOfFile:path];
     }
     return self;
 }
@@ -49,6 +41,37 @@
 - (BOOL) applicationShouldOpenUntitledFile: (NSApplication *) application
 {
     return NO;
+}
+
+- (IBAction) showPreferences:(id)sender
+{
+//    NSWindowController *preferncesPanel = [[NSWindowController alloc] init:@"MainMenu"];
+//    [preferncesPanel showWindow:self];
+    // 電子書籍リーダー設定をメニューに反映
+    for ( NSDictionary *reader in eBookReaders ) {
+        NSLog( @"name:%@", [reader objectForKey:@"name"] );
+        NSLog( @"width:%@", [reader objectForKey:@"width"] );
+        NSLog( @"height:%@", [reader objectForKey:@"height"] );
+        
+        [_eBookList addItemWithTitle:[reader objectForKey:@"name"]];
+    }
+
+    [_preferencesPanel makeKeyAndOrderFront:self];
+}
+
+// 選択された電子書籍リーダーの設定を反映する
+- (IBAction) selectEBookReader:(id)sender
+{
+    NSInteger selectedItem = [_eBookList indexOfSelectedItem];
+    NSLog( @"index:%ld", selectedItem );
+    
+    // 1行目は無視
+    if ( selectedItem > 0 ) {
+        // 幅、高さの最大値を設定
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setInteger: [[eBookReaders objectAtIndex: selectedItem - 1] integerForKey:@"width"] forKey:@"maxWidth"];
+        [defaults setInteger: [[eBookReaders objectAtIndex: selectedItem - 1] integerForKey:@"height"] forKey:@"maxHeight"];
+    }
 }
 
 - (IBAction) savePreferences:(id)sender

@@ -13,6 +13,10 @@
     IBOutlet id _preferencesPanel;
     
     IBOutlet id _eBookList;
+    
+    NSArray *eBookReaders;
 }
+-(IBAction)showPreferences:(id)sender;
 -(IBAction)savePreferences:(id)sender;
+-(IBAction)selectEBookReader:(id)sender;
 @end

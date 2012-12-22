@@ -38,7 +38,7 @@
         pdfDoc = [[PDFDocument alloc] init];
     }
     
-    [_pdfView setDocument: pdfDoc];
+    [_pdfView setDocument: (NSDocument*)pdfDoc];
 
 }
 
