@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2FA1BA1B168603080094C2CF /* EBookReader.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FA1BA1A168603080094C2CF /* EBookReader.plist */; };
 		2FB2D8171611D250005BBFEF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB2D8161611D250005BBFEF /* Cocoa.framework */; };
 		2FB2D8211611D250005BBFEF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2FB2D81F1611D250005BBFEF /* InfoPlist.strings */; };
 		2FB2D8231611D250005BBFEF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB2D8221611D250005BBFEF /* main.m */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2FA1BA1A168603080094C2CF /* EBookReader.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EBookReader.plist; sourceTree = "<group>"; };
 		2FB2D8121611D250005BBFEF /* PDFShrink.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDFShrink.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FB2D8161611D250005BBFEF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		2FB2D8191611D250005BBFEF /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -135,6 +137,7 @@
 				2FB2D82B1611D250005BBFEF /* Document.xib */,
 				2FB2D82E1611D250005BBFEF /* MainMenu.xib */,
 				2FB2D81D1611D250005BBFEF /* Supporting Files */,
+				2FA1BA1A168603080094C2CF /* EBookReader.plist */,
 			);
 			path = PDFShrink;
 			sourceTree = "<group>";
@@ -246,6 +249,7 @@
 				2FB2D82D1611D250005BBFEF /* Document.xib in Resources */,
 				2FB2D8301611D250005BBFEF /* MainMenu.xib in Resources */,
 				2FB2D86D1616F762005BBFEF /* icon.icns in Resources */,
+				2FA1BA1B168603080094C2CF /* EBookReader.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

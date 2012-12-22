@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>name</key>
+		<string>Kindle Paperwhite</string>
+		<key>width</key>
+		<integer>658</integer>
+		<key>height</key>
+		<integer>905</integer>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>iPad mini</string>
+		<key>width</key>
+		<integer>768</integer>
+		<key>height</key>
+		<integer>1024</integer>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Nexus 7</string>
+		<key>width</key>
+		<integer>800</integer>
+		<key>height</key>
+		<integer>1200</integer>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Sony Reader PRS-T2</string>
+		<key>width</key>
+		<integer>600</integer>
+		<key>height</key>
+		<integer>800</integer>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Kobo glo</string>
+		<key>width</key>
+		<integer>758</integer>
+		<key>height</key>
+		<integer>1024</integer>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Kobo touch</string>
+		<key>width</key>
+		<integer>600</integer>
+		<key>height</key>
+		<integer>800</integer>
+	</dict>
+</array>
+</plist>

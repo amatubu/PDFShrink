@@ -11,6 +11,8 @@
 @interface AppDelegate : NSObject
 {
     IBOutlet id _preferencesPanel;
+    
+    IBOutlet id _eBookList;
 }
 -(IBAction)savePreferences:(id)sender;
 @end
