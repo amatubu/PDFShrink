@@ -72,7 +72,7 @@
 		<key>width</key>
 		<integer>1024</integer>
 		<key>height</key>
-		<real>1</real>
+		<integer>1536</integer>
 	</dict>
 	<dict>
 		<key>name</key>
