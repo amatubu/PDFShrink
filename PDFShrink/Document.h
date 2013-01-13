@@ -20,4 +20,5 @@
 }
 - (IBAction)shrink:(id)sender;
 - (IBAction)abortShrink:(id)sender;
+- (IBAction)exportToCBZ:(id)sender;
 @end

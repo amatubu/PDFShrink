@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2F4868A5168623D60035855F /* Changes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2F4868A4168623D60035855F /* Changes.rtf */; };
-		2F4868A8168628220035855F /* create_archive.sh in Resources */ = {isa = PBXBuildFile; fileRef = 2F4868A7168628220035855F /* create_archive.sh */; };
 		2FA1BA1B168603080094C2CF /* EBookReader.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FA1BA1A168603080094C2CF /* EBookReader.plist */; };
 		2FB2D8171611D250005BBFEF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB2D8161611D250005BBFEF /* Cocoa.framework */; };
 		2FB2D8211611D250005BBFEF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2FB2D81F1611D250005BBFEF /* InfoPlist.strings */; };
@@ -24,6 +22,7 @@
 		2FB2D8511611D5B4005BBFEF /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB2D8501611D5B4005BBFEF /* Quartz.framework */; };
 		2FB2D8581611F0DA005BBFEF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB2D8571611F0DA005BBFEF /* AppDelegate.m */; };
 		2FB2D86D1616F762005BBFEF /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2FB2D86C1616F762005BBFEF /* icon.icns */; };
+		2FE61BAC16A2BB5300C2E909 /* CreateCBZ.sh in Resources */ = {isa = PBXBuildFile; fileRef = 2FE61BAA16A2B2BD00C2E909 /* CreateCBZ.sh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +64,7 @@
 		2FB2D8571611F0DA005BBFEF /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		2FB2D86C1616F762005BBFEF /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		2FB2D86E1616F942005BBFEF /* ReadMe.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = ReadMe.rtf; sourceTree = "<group>"; };
+		2FE61BAA16A2B2BD00C2E909 /* CreateCBZ.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = CreateCBZ.sh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +156,7 @@
 				2FB2D8221611D250005BBFEF /* main.m */,
 				2FB2D8241611D250005BBFEF /* PDFShrink-Prefix.pch */,
 				2FB2D8251611D250005BBFEF /* Credits.rtf */,
+				2FE61BAA16A2B2BD00C2E909 /* CreateCBZ.sh */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -256,8 +257,7 @@
 				2FB2D8301611D250005BBFEF /* MainMenu.xib in Resources */,
 				2FB2D86D1616F762005BBFEF /* icon.icns in Resources */,
 				2FA1BA1B168603080094C2CF /* EBookReader.plist in Resources */,
-				2F4868A5168623D60035855F /* Changes.rtf in Resources */,
-				2F4868A8168628220035855F /* create_archive.sh in Resources */,
+				2FE61BAC16A2BB5300C2E909 /* CreateCBZ.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
