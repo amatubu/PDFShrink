@@ -7,4 +7,4 @@
 #  Copyright (c) 2013 naoki iimura. All rights reserved.
 
 rm -rf "$1"
-zip "$1" *.jpg
+zip -0 "$1" *.jpg

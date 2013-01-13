@@ -235,13 +235,18 @@
     if ( !needAbort ) {
         // CBZ に変換
         NSString *command = [[[NSBundle mainBundle]resourcePath] stringByAppendingPathComponent:@"CreateCBZ.sh"];
-        NSString *outFile = [[arg objectForKey:@"outFile"] stringByReplacingOccurrencesOfString:@" "
-                                                                                     withString:@"\\ "];
+        NSString *outFile = [arg objectForKey:@"outFile"];
         NSArray *params = [NSArray arrayWithObjects:command, outFile, nil];
         
         NSString *result = [self executeUnixCommandWithParams:params workingDir:tempDir];
         NSLog( @"%@", result );
     }
+    
+    // テンポラリディレクトリを削除
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error;
+    [fileManager removeItemAtPath:tempDir
+                            error:&error];
     
     // プログレスバーを閉じる
 	[NSApp endSheet:_progressPanel];
