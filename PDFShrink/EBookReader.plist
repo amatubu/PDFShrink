@@ -4,7 +4,15 @@
 <array>
 	<dict>
 		<key>name</key>
-		<string>Kindle Paperwhite</string>
+		<string>Kindle Paperwhite (mobi)</string>
+		<key>width</key>
+		<string>768</string>
+		<key>height</key>
+		<string>1024</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Kindle Paperwhite (PDF)</string>
 		<key>width</key>
 		<integer>658</integer>
 		<key>height</key>
