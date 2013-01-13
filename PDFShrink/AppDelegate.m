@@ -30,6 +30,17 @@
             [defaults setInteger: maxHeight forKey: @"maxHeight"];
         }
         
+        // kindlegen のパス
+        NSString *pathToKindlegen;
+
+        pathToKindlegen = [defaults stringForKey:@"kindlegenPath"];
+        if ( pathToKindlegen == nil) {
+            NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
+            pathToKindlegen  = [[bundlePath stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"kindlegen"];
+            NSLog( @"%@", pathToKindlegen );
+            [defaults setValue:pathToKindlegen forKey:@"kindlegenPath"];
+        }
+        
         // 電子書籍リーダー設定を取得
         NSBundle *bundle = [NSBundle mainBundle];
         NSString *path = [bundle pathForResource:@"EBookReader" ofType:@"plist"];

@@ -10,6 +10,16 @@ use strict;
 use warnings;
 use utf8;
 
+# 標準出力のエンコードを調整する
+
+if ( $^O eq "MSWin32" ) {
+    binmode STDOUT, ":encoding(cp932)";
+} else {
+    binmode STDOUT, ":utf8";
+}
+
+printf STDOUT "ARGV[] : %s\n", join ",", @ARGV;
+
 my $title = $ARGV[0] || "テスト書名";
 my $author = $ARGV[1] || "テスト著者";
 my $id = 123;
@@ -17,10 +27,6 @@ my $language = "ja";
 
 my $page_direction = $ARGV[2] || "rtl";
 my $outfile_name = "book";
-
-if ( $^O eq "MSWin32" ) {
-    binmode STDOUT, ":encoding(cp932)";
-}
 
 # print "書名:", $title, "\n";
 # print "著者名:", $author, "\n";
@@ -63,7 +69,7 @@ for my $image ( @basenames ) {
 </html>
 HTML_EOL
 
-    open my $html_file, '>', $html_file_name;
+    open my $html_file, '>:utf8', $html_file_name;
     print $html_file $page_html;
     close $html_file;
 }

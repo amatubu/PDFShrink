@@ -34,6 +34,12 @@
     
     if ( [self fileURL] ) {
         pdfDoc = [[PDFDocument alloc] initWithURL: [self fileURL]];
+        
+        // PDF からタイトルと著者を得る
+        NSDictionary *attributes = [pdfDoc documentAttributes];
+        pdfTitle = [attributes objectForKey:PDFDocumentTitleAttribute];
+        pdfAuthor = [attributes objectForKey:PDFDocumentAuthorAttribute];
+        pdfPageDirection = 1; // Right to Left
     } else {
         pdfDoc = [[PDFDocument alloc] init];
     }
@@ -163,6 +169,12 @@
     [panel setNameFieldStringValue: newName];
     [panel setDirectoryURL: [NSURL fileURLWithPath: newPath]];
     
+    // カスタムビューを追加
+    [panel setAccessoryView:_exportToMobiAccessoryView];
+    if (pdfTitle != nil) [_pdfTitle setStringValue:pdfTitle];
+    if (pdfAuthor != nil) [_pdfAuthor setStringValue:pdfAuthor];
+    [_pdfPageDirection selectCellAtRow:pdfPageDirection column:0];
+    
     // 保存ダイアログの処理
     [panel beginSheetModalForWindow: myWindow
                   completionHandler:^(NSInteger result) {
@@ -171,12 +183,20 @@
                           NSURL *file = [panel URL];
                           NSString *newFile = [file path];
                           
+                          // その他の設定を得る
+                          pdfTitle = [_pdfTitle stringValue];
+                          pdfAuthor = [_pdfAuthor stringValue];
+                          pdfPageDirection = [_pdfPageDirection selectedRow];
+                          
                           [panel close];
                           
                           NSDictionary *arg = [NSDictionary dictionaryWithObjectsAndKeys:
                                                [_pdfView document], @"pdfDoc",
                                                newFile, @"outFile",
                                                myWindow, @"frontWindow",
+                                               pdfTitle, @"title",
+                                               pdfAuthor, @"author",
+                                               (pdfPageDirection == 1 ? @"rtl" : @"ltr"), @"pageDirection",
                                                nil];
                           needAbort = FALSE;
                           [NSThread detachNewThreadSelector:@selector(exportToMobiMain:)
@@ -271,7 +291,7 @@
         // テンポラリディレクトリに保存
         BOOL result = [dataJpeg writeToFile:[tempDir stringByAppendingPathComponent:
                                              [NSString stringWithFormat:@"%08ld.jpg", i]]
-                       atomically:YES];
+                                atomically:YES];
         
         // プログレスバーを進める
         [_progressIndicator setDoubleValue: ((double)i) / ((double)pageCount)];
@@ -282,12 +302,17 @@
     
     if ( !needAbort ) {
         // CBZ に変換
-        NSString *command = [[[NSBundle mainBundle]resourcePath] stringByAppendingPathComponent:@"CreateCBZ.sh"];
+        NSString *command = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"CreateCBZ.sh"];
         NSString *outFile = [arg objectForKey:@"outFile"];
         NSArray *params = [NSArray arrayWithObjects:command, outFile, nil];
         
-        NSString *result = [self executeUnixCommand:@"/bin/sh" withParams:params workingDir:tempDir];
-        NSLog( @"%@", result );
+        int status = [self executeUnixCommand:@"/bin/sh" withParams:params workingDir:tempDir];
+        NSLog( @"Result of CreateCBZ : %d", status );
+        if ( status != 0 ) {
+            NSString *message = [NSString stringWithFormat:@"Failed to export as CBZ file '%@'. (%d)", outFile, status];
+            [self displayAlert:message
+                     forWindow:[arg objectForKey: @"frontWindow"]];
+        }
     }
     
     // テンポラリディレクトリを削除
@@ -342,22 +367,64 @@
         // mobi に変換
 
         // 画像リストからOPF、HTMLファイルを作成
-        NSString *script = [[[NSBundle mainBundle]resourcePath] stringByAppendingPathComponent:@"image2opf.pl"];
-        NSArray *params = [NSArray arrayWithObjects:script, nil];
+        NSString *script = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"image2opf.pl"];
+        NSString *title = [arg objectForKey:@"title"];
+        NSString *author = [arg objectForKey:@"author"];
+        NSString *pageDirectionString = [arg objectForKey:@"pageDirection"];
+        NSArray *params = [NSArray arrayWithObjects:@"-CA", // ARGV に utf8 フラグをつける
+                                                    script,
+                                                    title,
+                                                    author,
+                                                    pageDirectionString, nil];
         
-        NSString *result = [self executeUnixCommand:@"/usr/bin/perl" withParams:params workingDir:tempDir];
-        NSLog( @"%@", result );
+        int status = [self executeUnixCommand:@"/usr/bin/perl" withParams:params workingDir:tempDir];
+        NSLog( @"Result of images2opf : %d", status );
 
-        // kindlegen を用いて mobi を作成
-        params = [NSArray arrayWithObjects:@"book.opf", nil];
-        result = [self executeUnixCommand:@"/Users/sent/work/PDFShrink/kindlegen" withParams:params workingDir:tempDir];
+        if ( status != 0 ) {
+            NSString *message = [NSString stringWithFormat:@"Failed to export as mobi file '%@'. (%d)",
+                                                           [arg objectForKey:@"outFile"], status];
+            [self displayAlert:message forWindow:[arg objectForKey:@"frontWindow"]];
+        } else {
+            // kindlegen のパス
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            NSString *kindlegenPath = [defaults objectForKey:@"kindlegenPath"];
+            
+            // kindlegen の存在を確認
+            NSFileManager *manager = [NSFileManager defaultManager];
+            if ( [manager fileExistsAtPath:kindlegenPath] && [manager isExecutableFileAtPath:kindlegenPath] ) {
+            
+                // kindlegen を用いて mobi を作成
+                params = [NSArray arrayWithObjects:@"book.opf", nil];
+                status = [self executeUnixCommand:@"/Users/sent/work/PDFShrink/kindlegen" withParams:params workingDir:tempDir];
+                NSLog( @"Result of kindlegen : %d", status );
 
-        // 作成したmobiファイルをコピー
-        NSString *mobiFile = [tempDir stringByAppendingPathComponent:@"book.mobi"];
-        NSString *outFile = [arg objectForKey:@"outFile"];
-        NSError *error;
-        [[NSFileManager defaultManager] copyItemAtPath:mobiFile toPath:outFile error:&error];
-}
+                if ( status != 0 ) {
+                    NSString *message = [NSString stringWithFormat:@"Failed to export as mobi file '%@'. (%d)",
+                                                                   [arg objectForKey:@"outFile"], status];
+                    [self displayAlert:message forWindow:[arg objectForKey:@"frontWindow"]];
+                } else {
+                    // 作成したmobiファイルをコピー
+                    NSString *mobiFile = [tempDir stringByAppendingPathComponent:@"book.mobi"];
+                    NSString *outFile = [arg objectForKey:@"outFile"];
+                    NSError *error;
+
+                    // 存在する場合は先に削除する
+                    if ( [manager fileExistsAtPath:outFile] ) {
+                        [manager removeItemAtPath:outFile error: &error];
+                        NSLog( @"%@", error );
+                    }
+                    
+                    // コピー
+                    [manager copyItemAtPath:mobiFile toPath:outFile error:&error];
+                    NSLog( @"%@", error );
+                }
+            } else {
+                NSString *message = [NSString stringWithFormat:@"Failed to execute kindlegen '%@'. Please check the path.",
+                                                               kindlegenPath ];
+                [self displayAlert:message forWindow:[arg objectForKey:@"frontWindow"]];
+            }
+        }
+    }
     
     // テンポラリディレクトリを削除
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -425,11 +492,11 @@
     *maxWidth = [defaults integerForKey: @"maxWidth"];
     *maxHeight = [defaults integerForKey: @"maxHeight"];
     if ( *maxWidth <= 0 ) {
-        *maxWidth = 584;
+        *maxWidth = 658;
         [defaults setInteger: *maxWidth forKey: @"maxWidth"];
     }
     if ( *maxHeight <= 0 ) {
-        *maxHeight = 754;
+        *maxHeight = 905;
         [defaults setInteger: *maxHeight forKey: @"maxHeight"];
     }
 }
@@ -536,8 +603,8 @@
     return dataJpeg;
 }
 
-// コマンドを実行する
-- (NSString *)executeUnixCommand:(NSString *)command withParams:(NSArray *)params workingDir:(NSString *)workingDirectory {
+// Unixコマンドを実行する
+- (int)executeUnixCommand:(NSString *)command withParams:(NSArray *)params workingDir:(NSString *)workingDirectory {
     NSPipe *newPipe = [NSPipe pipe];
     NSFileHandle *readHandle = [newPipe fileHandleForReading];
     NSData *inData = nil;
@@ -560,7 +627,30 @@
         NSLog(@"%@",returnValue);
     }
     
-    return returnValue;
+    return status;
+}
+
+// シンプルなアラートを表示する
+// 「アラートシートを表示」ボタンのアクション
+- (void)displayAlert:(NSString *)message forWindow:(NSWindow *)window
+{
+	[NSApp endSheet:_progressPanel];
+	
+    NSAlert *alert = [ NSAlert alertWithMessageText : nil
+                                      defaultButton : @"OK"
+                                    alternateButton : nil
+                                        otherButton : nil
+                          informativeTextWithFormat : @"%@", message];
+	
+    [alert beginSheetModalForWindow:window
+                      modalDelegate:self
+                     didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) 
+                        contextInfo:nil];
+}
+
+- (void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+    
 }
 
 @end

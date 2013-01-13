@@ -8,3 +8,5 @@
 
 rm -rf "$1"
 zip -0 "$1" *.jpg
+
+exit 0

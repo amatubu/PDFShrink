@@ -15,8 +15,17 @@
     IBOutlet id _pdfView;
     IBOutlet id _progressPanel;
     IBOutlet id _progressIndicator;
+
+    IBOutlet id _exportToMobiAccessoryView;
+    IBOutlet id _pdfTitle;
+    IBOutlet id _pdfAuthor;
+    IBOutlet id _pdfPageDirection;
     
     BOOL needAbort;
+
+    NSString *pdfTitle;
+    NSString *pdfAuthor;
+    NSInteger pdfPageDirection;
 }
 - (IBAction)shrink:(id)sender;
 - (IBAction)abortShrink:(id)sender;
