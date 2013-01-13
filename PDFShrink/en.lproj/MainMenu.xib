@@ -2239,6 +2239,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
+						<string key="label">exportToMobi:</string>
+						<reference key="source" ref="1014"/>
+						<reference key="destination" ref="250094390"/>
+					</object>
+					<int key="connectionID">631</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
 						<string key="label">addFontTrait:</string>
 						<reference key="source" ref="739804602"/>
 						<reference key="destination" ref="481459203"/>
@@ -4115,7 +4123,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">630</int>
+			<int key="maxID">631</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4166,6 +4174,7 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="abortShrink:">id</string>
 						<string key="exportToCBZ:">id</string>
+						<string key="exportToMobi:">id</string>
 						<string key="shrink:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -4175,6 +4184,10 @@
 						</object>
 						<object class="IBActionInfo" key="exportToCBZ:">
 							<string key="name">exportToCBZ:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="exportToMobi:">
+							<string key="name">exportToMobi:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="shrink:">

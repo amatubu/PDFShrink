@@ -138,6 +138,54 @@
                   }];
 }
 
+// PDFの画像を縮小してmobi形式で保存する
+- (IBAction)exportToMobi:(id)sender {
+    // ファイル名
+    NSString *name = [[self fileURL] path];
+    
+    // 新しいファイル名の候補
+    NSString *newPath = [name stringByDeletingLastPathComponent];
+    NSString *newName = [name lastPathComponent];
+    newName = [newName
+               stringByReplacingOccurrencesOfString: @".pdf"
+               withString: @".mobi"
+               options: NSCaseInsensitiveSearch
+               range: NSMakeRange(0, [newName length] )
+               ];
+    
+    // フロントウィンドウ
+    NSWindow *myWindow = [[[self windowControllers] objectAtIndex: 0] window];
+    
+    // 保存ダイアログの表示
+    NSSavePanel *panel = [NSSavePanel savePanel];
+    
+    // デフォルトのファイル名とパス
+    [panel setNameFieldStringValue: newName];
+    [panel setDirectoryURL: [NSURL fileURLWithPath: newPath]];
+    
+    // 保存ダイアログの処理
+    [panel beginSheetModalForWindow: myWindow
+                  completionHandler:^(NSInteger result) {
+                      if ( result == NSFileHandlingPanelOKButton ) {
+                          // ファイル名を得る
+                          NSURL *file = [panel URL];
+                          NSString *newFile = [file path];
+                          
+                          [panel close];
+                          
+                          NSDictionary *arg = [NSDictionary dictionaryWithObjectsAndKeys:
+                                               [_pdfView document], @"pdfDoc",
+                                               newFile, @"outFile",
+                                               myWindow, @"frontWindow",
+                                               nil];
+                          needAbort = FALSE;
+                          [NSThread detachNewThreadSelector:@selector(exportToMobiMain:)
+                                                   toTarget:self
+                                                 withObject:arg];
+                      }
+                  }];
+}
+
 // PDF画像の縮小を中止する
 - (IBAction)abortShrink:(id)sender {
     needAbort = YES;
@@ -238,9 +286,78 @@
         NSString *outFile = [arg objectForKey:@"outFile"];
         NSArray *params = [NSArray arrayWithObjects:command, outFile, nil];
         
-        NSString *result = [self executeUnixCommandWithParams:params workingDir:tempDir];
+        NSString *result = [self executeUnixCommand:@"/bin/sh" withParams:params workingDir:tempDir];
         NSLog( @"%@", result );
     }
+    
+    // テンポラリディレクトリを削除
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error;
+    [fileManager removeItemAtPath:tempDir
+                            error:&error];
+    
+    // プログレスバーを閉じる
+	[NSApp endSheet:_progressPanel];
+}
+
+// mobiへのエクスポートメイン
+- (void)exportToMobiMain:(NSDictionary *)arg
+{
+    // 設定を得る
+    NSInteger maxWidth;
+    NSInteger maxHeight;
+    
+    [self getMaxWidth:&maxWidth maxHeight:&maxHeight];
+    
+    // テンポラリディレクトリを取得
+    NSString *tempDir = [self createTemporaryDirectory];
+    
+    // プログレスバーを用意する
+	[self createProgressPanel:[arg objectForKey: @"frontWindow"]];
+    
+    // PDFドキュメントを得る
+    PDFDocument *pdfDoc = [arg objectForKey: @"pdfDoc"];
+    
+    // ページ数を取得
+    NSUInteger pageCount = [pdfDoc pageCount];
+    
+    // ページをループ
+    for (NSUInteger i = 0; i < pageCount; i++) {
+        // ページを取りだしてJPEGデータに変換
+        NSData *dataJpeg = [self getShrunkJPEGData:pdfDoc atIndex:i maxWidth:maxWidth maxHeight:maxHeight];
+        
+        // テンポラリディレクトリに保存
+        BOOL result = [dataJpeg writeToFile:[tempDir stringByAppendingPathComponent:
+                                             [NSString stringWithFormat:@"%08ld.jpg", i]]
+                                 atomically:YES];
+        
+        // プログレスバーを進める
+        [_progressIndicator setDoubleValue: ((double)i) / ((double)pageCount)];
+        
+        // 中断なら止める
+        if ( needAbort ) break;
+    }
+    
+    if ( !needAbort ) {
+        // mobi に変換
+
+        // 画像リストからOPF、HTMLファイルを作成
+        NSString *script = [[[NSBundle mainBundle]resourcePath] stringByAppendingPathComponent:@"image2opf.pl"];
+        NSArray *params = [NSArray arrayWithObjects:script, nil];
+        
+        NSString *result = [self executeUnixCommand:@"/usr/bin/perl" withParams:params workingDir:tempDir];
+        NSLog( @"%@", result );
+
+        // kindlegen を用いて mobi を作成
+        params = [NSArray arrayWithObjects:@"book.opf", nil];
+        result = [self executeUnixCommand:@"/Users/sent/work/PDFShrink/kindlegen" withParams:params workingDir:tempDir];
+
+        // 作成したmobiファイルをコピー
+        NSString *mobiFile = [tempDir stringByAppendingPathComponent:@"book.mobi"];
+        NSString *outFile = [arg objectForKey:@"outFile"];
+        NSError *error;
+        [[NSFileManager defaultManager] copyItemAtPath:mobiFile toPath:outFile error:&error];
+}
     
     // テンポラリディレクトリを削除
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -420,7 +537,7 @@
 }
 
 // コマンドを実行する
-- (NSString *)executeUnixCommandWithParams:(NSArray *)commandAndParams workingDir:(NSString *)workingDirectory {
+- (NSString *)executeUnixCommand:(NSString *)command withParams:(NSArray *)params workingDir:(NSString *)workingDirectory {
     NSPipe *newPipe = [NSPipe pipe];
     NSFileHandle *readHandle = [newPipe fileHandleForReading];
     NSData *inData = nil;
@@ -428,8 +545,8 @@
     
     NSTask *unixTask = [[NSTask alloc] init];
     [unixTask setStandardOutput:newPipe];
-    [unixTask setLaunchPath:@"/bin/sh"];
-    [unixTask setArguments:commandAndParams];
+    [unixTask setLaunchPath:command];
+    [unixTask setArguments:params];
     [unixTask setCurrentDirectoryPath:workingDirectory];
     [unixTask launch];
     [unixTask waitUntilExit];

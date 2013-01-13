@@ -21,4 +21,5 @@
 - (IBAction)shrink:(id)sender;
 - (IBAction)abortShrink:(id)sender;
 - (IBAction)exportToCBZ:(id)sender;
+- (IBAction)exportToMobi:(id)sender;
 @end
