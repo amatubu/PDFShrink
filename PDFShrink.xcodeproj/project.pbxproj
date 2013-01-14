@@ -43,6 +43,12 @@
 		2FA1BA1A168603080094C2CF /* EBookReader.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EBookReader.plist; sourceTree = "<group>"; };
 		2FA89FB916A430F800959BF6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		2FA89FC316A44BFB00959BF6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2FA89FD516A44DF500959BF6 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/Document.xib; sourceTree = "<group>"; };
+		2FA89FD616A44DF500959BF6 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		2FA89FD716A44DF500959BF6 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2FA89FD816A44DF500959BF6 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ja; path = ja.lproj/Credits.rtf; sourceTree = "<group>"; };
+		2FA89FD916A44DF500959BF6 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2FA89FDA16A44DF500959BF6 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2FB2D8121611D250005BBFEF /* PDFShrink.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDFShrink.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FB2D8161611D250005BBFEF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		2FB2D8191611D250005BBFEF /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -242,6 +248,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				ja,
 			);
 			mainGroup = 2FB2D8071611D250005BBFEF;
 			productRefGroup = 2FB2D8131611D250005BBFEF /* Products */;
@@ -331,6 +338,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				2FA89FC316A44BFB00959BF6 /* en */,
+				2FA89FD916A44DF500959BF6 /* ja */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -339,6 +347,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				2FB2D8201611D250005BBFEF /* en */,
+				2FA89FD716A44DF500959BF6 /* ja */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -347,6 +356,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				2FB2D8261611D250005BBFEF /* en */,
+				2FA89FD816A44DF500959BF6 /* ja */,
 			);
 			name = Credits.rtf;
 			sourceTree = "<group>";
@@ -355,6 +365,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				2FB2D82C1611D250005BBFEF /* en */,
+				2FA89FD516A44DF500959BF6 /* ja */,
 			);
 			name = Document.xib;
 			sourceTree = "<group>";
@@ -363,6 +374,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				2FB2D82F1611D250005BBFEF /* en */,
+				2FA89FD616A44DF500959BF6 /* ja */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -371,6 +383,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				2FB2D8401611D250005BBFEF /* en */,
+				2FA89FDA16A44DF500959BF6 /* ja */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
