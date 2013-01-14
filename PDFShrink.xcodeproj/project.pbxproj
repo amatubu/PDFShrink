@@ -40,6 +40,7 @@
 		2F4868A4168623D60035855F /* Changes.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Changes.rtf; sourceTree = "<group>"; };
 		2F4868A7168628220035855F /* create_archive.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = create_archive.sh; sourceTree = "<group>"; };
 		2FA1BA1A168603080094C2CF /* EBookReader.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EBookReader.plist; sourceTree = "<group>"; };
+		2FA89FB916A430F800959BF6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		2FB2D8121611D250005BBFEF /* PDFShrink.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDFShrink.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FB2D8161611D250005BBFEF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		2FB2D8191611D250005BBFEF /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -96,6 +97,7 @@
 			children = (
 				2F4868A7168628220035855F /* create_archive.sh */,
 				2FB2D86E1616F942005BBFEF /* ReadMe.rtf */,
+				2FA89FB916A430F800959BF6 /* README.md */,
 				2F4868A4168623D60035855F /* Changes.rtf */,
 				2FB2D81C1611D250005BBFEF /* PDFShrink */,
 				2FB2D83C1611D250005BBFEF /* PDFShrinkTests */,
