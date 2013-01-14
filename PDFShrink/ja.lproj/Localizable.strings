@@ -7,13 +7,13 @@
 */
 
 /* Error message that PDFShrink could not find KindleGen */
-"error_kindlegen_not_found" = "Failed to find kindlegen '%@'. Please check the path.";
+"error_kindlegen_not_found" = "KindleGen '%@' を見つけられませんでした。パスを確認してください。";
 
 /* Error message that PDFShrink failed to export CBZ */
-"error_failed_to_export_cbz" = "Failed to export as CBZ file '%@'. (%d)";
+"error_failed_to_export_cbz" = "CBZ ファイル '%@' にエクスポートできませんでした。 (%d)";
 
 /* Error message that PDFShrink failed to export mobi */
-"error_failed_to_exoprt_mobi" = "Failed to export as mobi file '%@'. (%d)";
+"error_failed_to_exoprt_mobi" = "Mobi ファイル '%@' にエクスポートできませんでした。 (%d)";
 
 /* Error message that PDFShrink failed to execute KindleGen */
-"error_failed_to_execute_kindlegen" = "Failed to execute kindlegen '%@'. Please check the path.";
+"error_failed_to_execute_kindlegen" = "KindleGen '%@' を実行することができませんでした。パスを確認してください。";
