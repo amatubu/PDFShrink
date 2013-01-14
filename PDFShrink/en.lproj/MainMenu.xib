@@ -1483,6 +1483,7 @@
 							<string key="NSFrame">{{332, 13}, {78, 32}}</string>
 							<reference key="NSSuperview" ref="269259629"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="1072225584">
@@ -1578,7 +1579,7 @@
 						<object class="NSTextField" id="758548188">
 							<reference key="NSNextResponder" ref="269259629"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{20, 84}, {123, 17}}</string>
+							<string key="NSFrame">{{20, 84}, {125, 17}}</string>
 							<reference key="NSSuperview" ref="269259629"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="714887507"/>
@@ -1587,7 +1588,7 @@
 							<object class="NSTextFieldCell" key="NSCell" id="907702089">
 								<int key="NSCellFlags">68157504</int>
 								<int key="NSCellFlags2">272630784</int>
-								<string key="NSContents">Path to kindlegen :</string>
+								<string key="NSContents">Path to KindleGen :</string>
 								<reference key="NSSupport" ref="726521433"/>
 								<string key="NSCellIdentifier">_NS:1535</string>
 								<reference key="NSControlView" ref="758548188"/>

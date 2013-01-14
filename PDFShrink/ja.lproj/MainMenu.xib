@@ -86,7 +86,7 @@
 								</object>
 								<object class="NSMenuItem" id="609285721">
 									<reference key="NSMenu" ref="110575045"/>
-									<string key="NSTitle">初期設定…</string>
+									<string key="NSTitle">環境設定…</string>
 									<string key="NSKeyEquiv">,</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -1350,7 +1350,7 @@
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{130, 59}, {424, 252}}</string>
 				<int key="NSWTFlags">-461896704</int>
-				<string key="NSWindowTitle">初期設定</string>
+				<string key="NSWindowTitle">環境設定</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>

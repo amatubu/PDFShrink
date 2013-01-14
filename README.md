@@ -1,7 +1,7 @@
 PDFShrink
 =========
 
- 画像ファイルで構成されたPDFの各ページの画像の解像度を調整し、Sony Reader等のE-inkを使った端末で読みやすくするためのものです。
+ 画像ファイルで構成されたPDFの各ページの画像の解像度を調整し、Kindle、Sony Reader、Kobo 等のE-inkを使った端末で読みやすくするためのものです。
 
 動作環境
 --------
@@ -15,25 +15,25 @@ PDFShrink
 
  PDFファイルをドラッグ&ドロップすると、PDFの中身が表示されます。
 
- File > Export > Compacted PDF... を選択し、保存ダイアログでファイル名を指定すると、各ページの解像度を指定されたサイズに収まるように縮小して新しいPDFファイルに保存します。
+ ファイル(File) > エクスポート(Export) > 縮小した PDF...(Compacted PDF...) を選択し、保存ダイアログでファイル名を指定すると、各ページの解像度を指定されたサイズに収まるように縮小して新しいPDFファイルに保存します。
 
  バージョン 1.2 より、PDF だけでなく、CBZ や mobi といった形式での出力にも対応しました。mobi での出力には Amazon.com が提供している KindleGen が必要です。
 
 解像度の変更
 ------------
 
- PDFShrink > Preferences を選択し、最大の幅(maxWidth)と高さ(maxHeight)を指定します。
+ PDFShrink > 環境設定(Preferences) を選択し、最大の幅(Max width)と最大の高さ(Max height)を指定します。
 
  バージョン 1.1 より、電子書籍リーダーを選択すると最適な解像度を自動的に設定できるようになりました。
 
  PDFを表示させた際の最適な解像度は、検索して調べたものがほとんどで、Kindle Paperwhite 以外は実機では確認していません。誤りなどがありましたら下記の連絡先まで連絡いただければと思います。
 
-JPEG画質(圧縮率)の変更
+JPEG の画質(圧縮率)の変更
 ----------------------
 
  バージョン 1.2 より、JPEG 画像の画質(圧縮率)を変更できるようになりました。
  
- PDFShrink > Preferences を選択し、画質(JPEG quality)を指定します。
+ PDFShrink > 環境設定(Preferences) を選択し、JPEG の画質(JPEG quality)を指定します。
 
 mobi の出力
 -----------
@@ -42,7 +42,7 @@ mobi の出力
  
  Amazon.com が提供する KindleGen というツールをダウンロードして利用します。展開後、「kindlegen」というファイルを PDFShrink と同じフォルダに保存してください。別のディレクトリに保存したものを利用する場合は、設定から変更してください。
  
- PDFShrink > Preferences を選択し、kindlegen のパス(Path to kindlegen)を指定します。
+ PDFShrink > 環境設定(Preferences) を選択し、KindleGen のパス(Path to KindleGen)を指定します。
 
 ### KindleGen のダウンロード先
  
@@ -72,4 +72,4 @@ mobi の出力
  にて配布します。
 
 
-2013.1.14 naoki iimura
+2013.1.15 naoki iimura
