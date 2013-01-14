@@ -217,8 +217,9 @@
     // 設定を得る
     NSInteger maxWidth;
     NSInteger maxHeight;
+    NSNumber *jpegQuality;
     
-    [self getMaxWidth:&maxWidth maxHeight:&maxHeight];
+    [self getMaxWidth:&maxWidth maxHeight:&maxHeight jpegQuality:&jpegQuality];
     
     // プログレスバーを用意する
 	[self createProgressPanel:[arg objectForKey: @"frontWindow"]];
@@ -235,7 +236,7 @@
     // ページをループ
     for (NSUInteger i = 0; i < pageCount; i++) {
         // ページを取りだしてJPEGデータに変換
-        NSData *dataJpeg = [self getShrunkJPEGData:pdfDoc atIndex:i maxWidth:maxWidth maxHeight:maxHeight];
+        NSData *dataJpeg = [self getShrunkJPEGData:pdfDoc atIndex:i maxWidth:maxWidth maxHeight:maxHeight jpegQuality:jpegQuality];
         
         // できたPDFからイメージに
         NSImage *newImage = [[NSImage alloc] initWithData: dataJpeg];
@@ -268,8 +269,9 @@
     // 設定を得る
     NSInteger maxWidth;
     NSInteger maxHeight;
+    NSNumber *jpegQuality;
     
-    [self getMaxWidth:&maxWidth maxHeight:&maxHeight];
+    [self getMaxWidth:&maxWidth maxHeight:&maxHeight jpegQuality:&jpegQuality];
     
     // テンポラリディレクトリを取得
     NSString *tempDir = [self createTemporaryDirectory];
@@ -286,7 +288,7 @@
     // ページをループ
     for (NSUInteger i = 0; i < pageCount; i++) {
         // ページを取りだしてJPEGデータに変換
-        NSData *dataJpeg = [self getShrunkJPEGData:pdfDoc atIndex:i maxWidth:maxWidth maxHeight:maxHeight];
+        NSData *dataJpeg = [self getShrunkJPEGData:pdfDoc atIndex:i maxWidth:maxWidth maxHeight:maxHeight jpegQuality:jpegQuality];
         
         // テンポラリディレクトリに保存
         BOOL result = [dataJpeg writeToFile:[tempDir stringByAppendingPathComponent:
@@ -331,8 +333,9 @@
     // 設定を得る
     NSInteger maxWidth;
     NSInteger maxHeight;
+    NSNumber *jpegQuality;
     
-    [self getMaxWidth:&maxWidth maxHeight:&maxHeight];
+    [self getMaxWidth:&maxWidth maxHeight:&maxHeight jpegQuality:&jpegQuality];
     
     // テンポラリディレクトリを取得
     NSString *tempDir = [self createTemporaryDirectory];
@@ -349,7 +352,7 @@
     // ページをループ
     for (NSUInteger i = 0; i < pageCount; i++) {
         // ページを取りだしてJPEGデータに変換
-        NSData *dataJpeg = [self getShrunkJPEGData:pdfDoc atIndex:i maxWidth:maxWidth maxHeight:maxHeight];
+        NSData *dataJpeg = [self getShrunkJPEGData:pdfDoc atIndex:i maxWidth:maxWidth maxHeight:maxHeight jpegQuality:jpegQuality];
         
         // テンポラリディレクトリに保存
         BOOL result = [dataJpeg writeToFile:[tempDir stringByAppendingPathComponent:
@@ -484,21 +487,28 @@
     return tempDirectoryPath;
 }
 
-// 最大サイズを得る
-- (void)getMaxWidth:(NSInteger *)maxWidth maxHeight:(NSInteger *)maxHeight
+// 最大サイズ、JPEGの画質を得る
+- (void)getMaxWidth:(NSInteger *)maxWidth maxHeight:(NSInteger *)maxHeight jpegQuality:(NSNumber **)jpegQuality
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
-    *maxWidth = [defaults integerForKey: @"maxWidth"];
-    *maxHeight = [defaults integerForKey: @"maxHeight"];
+    *maxWidth = [defaults integerForKey:@"maxWidth"];
+    *maxHeight = [defaults integerForKey:@"maxHeight"];
+    NSInteger quality = [defaults integerForKey:@"jpegQuality"];
+
     if ( *maxWidth <= 0 ) {
         *maxWidth = 658;
-        [defaults setInteger: *maxWidth forKey: @"maxWidth"];
+        [defaults setInteger:*maxWidth forKey:@"maxWidth"];
     }
     if ( *maxHeight <= 0 ) {
         *maxHeight = 905;
-        [defaults setInteger: *maxHeight forKey: @"maxHeight"];
+        [defaults setInteger:*maxHeight forKey:@"maxHeight"];
     }
+    if ( quality <= 0 || quality > 100 ) {
+        quality = 80;
+        [defaults setInteger:quality forKey:@"jpegQuality"];
+    }
+    *jpegQuality = [[NSNumber alloc] initWithDouble:( (double)quality / (double)100.0 )];
 }
 
 // プログレスパネルを用意
@@ -513,7 +523,7 @@
 }
 
 // PDFの指定ページをJPEGデータとして取り出す
-- (NSData *)getShrunkJPEGData:(PDFDocument *)pdfDoc atIndex:(NSUInteger)i maxWidth:(NSInteger)maxWidth maxHeight:(NSInteger)maxHeight
+- (NSData *)getShrunkJPEGData:(PDFDocument *)pdfDoc atIndex:(NSUInteger)i maxWidth:(NSInteger)maxWidth maxHeight:(NSInteger)maxHeight jpegQuality:(NSNumber *)jpegQuality
 {
     // ページを取りだす
     PDFPage *page = [pdfDoc pageAtIndex:i];
@@ -593,7 +603,7 @@
     // JPEGの圧縮率を設定
     NSDictionary *propJpeg =
     [NSDictionary dictionaryWithObjectsAndKeys:
-     [NSNumber numberWithFloat: 0.8],
+     jpegQuality,
      NSImageCompressionFactor,
      nil];
     

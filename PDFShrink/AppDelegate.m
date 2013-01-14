@@ -16,18 +16,28 @@
     if (self) {
         // 初期設定
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+        // 最大の幅と高さ
         NSInteger maxWidth;
         NSInteger maxHeight;
-
-        maxWidth = [defaults integerForKey: @"maxWidth"];
-        maxHeight = [defaults integerForKey: @"maxHeight"];
+        
+        maxWidth = [defaults integerForKey:@"maxWidth"];
+        maxHeight = [defaults integerForKey:@"maxHeight"];
         if ( maxWidth <= 0 ) {
             maxWidth = 658;
-            [defaults setInteger: maxWidth forKey: @"maxWidth"];
+            [defaults setInteger:maxWidth forKey:@"maxWidth"];
         }
         if ( maxHeight <= 0 ) {
             maxHeight = 905;
-            [defaults setInteger: maxHeight forKey: @"maxHeight"];
+            [defaults setInteger:maxHeight forKey:@"maxHeight"];
+        }
+        
+        // JPEG の画質
+        NSInteger jpegQuality;
+        jpegQuality = [defaults integerForKey:@"jpegQuality"];
+        if ( jpegQuality <= 0 || jpegQuality > 100 ) {
+            jpegQuality = 80;
+            [defaults setInteger:jpegQuality forKey:@"jpegQuality"];
         }
         
         // kindlegen のパス
