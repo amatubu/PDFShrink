@@ -40,6 +40,39 @@
         pdfTitle = [attributes objectForKey:PDFDocumentTitleAttribute];
         pdfAuthor = [attributes objectForKey:PDFDocumentAuthorAttribute];
         pdfPageDirection = 1; // Right to Left
+
+        // タイトルや著者が得られなかった場合は、ファイル名からの取得を試みる
+        if ( pdfTitle == nil || pdfAuthor == nil ) {
+            NSError *error;
+            NSRegularExpression *regexp =
+            [NSRegularExpression regularExpressionWithPattern:@"(.+?)( - (\\(著\\))?(.+?))?( - (.+))?\\.pdf"
+                                                      options:0
+                                                        error:&error];
+            if (error != nil) {
+                NSLog(@"%@", error);
+            } else {
+                NSString *name = [[[self fileURL] path] lastPathComponent];
+                
+                NSTextCheckingResult *match =
+                [regexp firstMatchInString:name options:0 range:NSMakeRange(0, name.length)];
+                NSLog(@"%ld", match.numberOfRanges);
+                if ( match.numberOfRanges >= 4 ) {
+                    NSRange range1 = [match rangeAtIndex:1];
+                    NSRange range4 = [match rangeAtIndex:4];
+                    NSLog(@"%@", [name substringWithRange:[match rangeAtIndex:0]]); // マッチした文字列全部
+                    if ( range1.length > 0 )
+                        NSLog(@"%@", [name substringWithRange:[match rangeAtIndex:1]]); // "書名"
+                    if ( range4.length > 4 )
+                        NSLog(@"%@", [name substringWithRange:[match rangeAtIndex:4]]); // "著者名"
+                    if ( pdfTitle == nil && range1.length > 0 ) {
+                        pdfTitle = [name substringWithRange:[match rangeAtIndex:1]];
+                    }
+                    if ( pdfAuthor == nil && range4.length > 0 ) {
+                        pdfAuthor = [name substringWithRange:[match rangeAtIndex:4]];
+                    }
+                }
+            }
+        }
     } else {
         pdfDoc = [[PDFDocument alloc] init];
     }

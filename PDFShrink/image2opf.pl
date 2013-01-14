@@ -142,7 +142,7 @@ body {
 }
 
 img.content{
-  height: 100%;
+//  height: 100%;
 }
 CSS_EOL
 
