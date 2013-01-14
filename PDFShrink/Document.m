@@ -146,6 +146,22 @@
 
 // PDFの画像を縮小してmobi形式で保存する
 - (IBAction)exportToMobi:(id)sender {
+    // フロントウィンドウ
+    NSWindow *myWindow = [[[self windowControllers] objectAtIndex: 0] window];
+    
+    // kindlegen のパス
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *kindlegenPath = [defaults objectForKey:@"kindlegenPath"];
+    
+    // kindlegen の存在を確認
+    NSFileManager *manager = [NSFileManager defaultManager];
+    if ( ![manager fileExistsAtPath:kindlegenPath] || ![manager isExecutableFileAtPath:kindlegenPath] ) {
+        NSString *message = [NSString stringWithFormat:@"Failed to find kindlegen '%@'. Please check the path.",
+                             kindlegenPath ];
+        [self displayAlert:message forWindow:myWindow];
+        return;
+    }
+
     // ファイル名
     NSString *name = [[self fileURL] path];
     
@@ -158,9 +174,6 @@
                options: NSCaseInsensitiveSearch
                range: NSMakeRange(0, [newName length] )
                ];
-    
-    // フロントウィンドウ
-    NSWindow *myWindow = [[[self windowControllers] objectAtIndex: 0] window];
     
     // 保存ダイアログの表示
     NSSavePanel *panel = [NSSavePanel savePanel];
