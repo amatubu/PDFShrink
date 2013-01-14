@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2FA1BA1B168603080094C2CF /* EBookReader.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FA1BA1A168603080094C2CF /* EBookReader.plist */; };
+		2FA89FC016A4481100959BF6 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2FA89FBF16A4481100959BF6 /* Localizable.strings */; };
 		2FB2D8171611D250005BBFEF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB2D8161611D250005BBFEF /* Cocoa.framework */; };
 		2FB2D8211611D250005BBFEF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2FB2D81F1611D250005BBFEF /* InfoPlist.strings */; };
 		2FB2D8231611D250005BBFEF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB2D8221611D250005BBFEF /* main.m */; };
@@ -41,6 +42,7 @@
 		2F4868A7168628220035855F /* create_archive.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = create_archive.sh; sourceTree = "<group>"; };
 		2FA1BA1A168603080094C2CF /* EBookReader.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EBookReader.plist; sourceTree = "<group>"; };
 		2FA89FB916A430F800959BF6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		2FA89FBF16A4481100959BF6 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		2FB2D8121611D250005BBFEF /* PDFShrink.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDFShrink.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FB2D8161611D250005BBFEF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		2FB2D8191611D250005BBFEF /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -162,6 +164,7 @@
 				2FB2D8251611D250005BBFEF /* Credits.rtf */,
 				2FE61BAA16A2B2BD00C2E909 /* CreateCBZ.sh */,
 				2FE61BAD16A2C6BF00C2E909 /* image2opf.pl */,
+				2FA89FBF16A4481100959BF6 /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -264,6 +267,7 @@
 				2FA1BA1B168603080094C2CF /* EBookReader.plist in Resources */,
 				2FE61BAC16A2BB5300C2E909 /* CreateCBZ.sh in Resources */,
 				2FE61BAE16A2C6BF00C2E909 /* image2opf.pl in Resources */,
+				2FA89FC016A4481100959BF6 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

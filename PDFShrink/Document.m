@@ -189,8 +189,9 @@
     // kindlegen の存在を確認
     NSFileManager *manager = [NSFileManager defaultManager];
     if ( ![manager fileExistsAtPath:kindlegenPath] || ![manager isExecutableFileAtPath:kindlegenPath] ) {
-        NSString *message = [NSString stringWithFormat:@"Failed to find kindlegen '%@'. Please check the path.",
-                             kindlegenPath];
+        NSString *message = [NSString stringWithFormat:NSLocalizedString( @"error_kindlegen_not_found",
+                                                                          @"Error message that KindleGen not found."),
+                                                       kindlegenPath];
         [self displayAlert:message forWindow:myWindow];
         return;
     }
@@ -357,7 +358,9 @@
         int status = [self executeUnixCommand:@"/bin/sh" withParams:params workingDir:tempDir];
         NSLog( @"Result of CreateCBZ : %d", status );
         if ( status != 0 ) {
-            NSString *message = [NSString stringWithFormat:@"Failed to export as CBZ file '%@'. (%d)", outFile, status];
+            NSString *message = [NSString stringWithFormat:NSLocalizedString( @"error_failed_to_export_cbz",
+                                                                              @"Error message that failed to export CBZ" ),
+                                                           outFile, status];
             [self displayAlert:message
                      forWindow:[arg objectForKey: @"frontWindow"]];
         }
@@ -430,7 +433,8 @@
         NSLog( @"Result of images2opf : %d", status );
 
         if ( status != 0 ) {
-            NSString *message = [NSString stringWithFormat:@"Failed to export as mobi file '%@'. (%d)",
+            NSString *message = [NSString stringWithFormat:NSLocalizedString( @"error_failed_to_export_mobi",
+                                                                              @"Error message that failed to export mobi." ),
                                                            [arg objectForKey:@"outFile"], status];
             [self displayAlert:message forWindow:[arg objectForKey:@"frontWindow"]];
         } else {
@@ -448,7 +452,8 @@
                 NSLog( @"Result of kindlegen : %d", status );
 
                 if ( status != 0 ) {
-                    NSString *message = [NSString stringWithFormat:@"Failed to export as mobi file '%@'. (%d)",
+                    NSString *message = [NSString stringWithFormat:NSLocalizedString( @"error_failed_to_export_mobi",
+                                                                                      @"Error message that failed to export mobi." ),
                                                                    [arg objectForKey:@"outFile"], status];
                     [self displayAlert:message forWindow:[arg objectForKey:@"frontWindow"]];
                 } else {
@@ -468,7 +473,8 @@
                     NSLog( @"%@", error );
                 }
             } else {
-                NSString *message = [NSString stringWithFormat:@"Failed to execute kindlegen '%@'. Please check the path.",
+                NSString *message = [NSString stringWithFormat:NSLocalizedString( @"error_failed_to_execute_kindlegen",
+                                                                                  @"Error message that failed to execute kindlegen." ),
                                                                kindlegenPath];
                 [self displayAlert:message forWindow:[arg objectForKey:@"frontWindow"]];
             }
