@@ -157,7 +157,7 @@
     NSFileManager *manager = [NSFileManager defaultManager];
     if ( ![manager fileExistsAtPath:kindlegenPath] || ![manager isExecutableFileAtPath:kindlegenPath] ) {
         NSString *message = [NSString stringWithFormat:@"Failed to find kindlegen '%@'. Please check the path.",
-                             kindlegenPath ];
+                             kindlegenPath];
         [self displayAlert:message forWindow:myWindow];
         return;
     }
@@ -436,7 +436,7 @@
                 }
             } else {
                 NSString *message = [NSString stringWithFormat:@"Failed to execute kindlegen '%@'. Please check the path.",
-                                                               kindlegenPath ];
+                                                               kindlegenPath];
                 [self displayAlert:message forWindow:[arg objectForKey:@"frontWindow"]];
             }
         }
