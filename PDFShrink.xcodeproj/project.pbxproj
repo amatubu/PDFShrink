@@ -39,7 +39,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2F4868A4168623D60035855F /* Changes.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Changes.rtf; sourceTree = "<group>"; };
 		2F4868A7168628220035855F /* create_archive.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = create_archive.sh; sourceTree = "<group>"; };
 		2FA1BA1A168603080094C2CF /* EBookReader.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EBookReader.plist; sourceTree = "<group>"; };
 		2FA89FB916A430F800959BF6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
@@ -74,10 +73,10 @@
 		2FB2D8561611F0DA005BBFEF /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2FB2D8571611F0DA005BBFEF /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		2FB2D86C1616F762005BBFEF /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
-		2FB2D86E1616F942005BBFEF /* ReadMe.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = ReadMe.rtf; sourceTree = "<group>"; };
 		2FE61BAA16A2B2BD00C2E909 /* CreateCBZ.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = CreateCBZ.sh; sourceTree = "<group>"; };
 		2FE61BAD16A2C6BF00C2E909 /* image2opf.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = image2opf.pl; sourceTree = "<group>"; };
 		2FF6338016A9640700B4C7E2 /* kindlestrip.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = kindlestrip.py; sourceTree = "<group>"; };
+		2FF6338316A9722A00B4C7E2 /* CHANGES.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = CHANGES.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,9 +105,8 @@
 			isa = PBXGroup;
 			children = (
 				2F4868A7168628220035855F /* create_archive.sh */,
-				2FB2D86E1616F942005BBFEF /* ReadMe.rtf */,
 				2FA89FB916A430F800959BF6 /* README.md */,
-				2F4868A4168623D60035855F /* Changes.rtf */,
+				2FF6338316A9722A00B4C7E2 /* CHANGES.md */,
 				2FB2D81C1611D250005BBFEF /* PDFShrink */,
 				2FB2D83C1611D250005BBFEF /* PDFShrinkTests */,
 				2FB2D8151611D250005BBFEF /* Frameworks */,
