@@ -448,7 +448,7 @@
             
                 // kindlegen を用いて mobi を作成
                 params = [NSArray arrayWithObjects:@"book.opf", nil];
-                status = [self executeUnixCommand:@"/Users/sent/work/PDFShrink/kindlegen" withParams:params workingDir:tempDir];
+                status = [self executeUnixCommand:kindlegenPath withParams:params workingDir:tempDir];
                 NSLog( @"Result of kindlegen : %d", status );
 
                 if ( status != 0 ) {
@@ -457,7 +457,7 @@
                                                                    [arg objectForKey:@"outFile"], status];
                     [self displayAlert:message forWindow:[arg objectForKey:@"frontWindow"]];
                 } else {
-                    // 作成したmobiファイルをコピー
+                    // 作成した mobi ファイルをコピー
                     NSString *mobiFile = [tempDir stringByAppendingPathComponent:@"book.mobi"];
                     NSString *outFile = [arg objectForKey:@"outFile"];
                     NSError *error;
