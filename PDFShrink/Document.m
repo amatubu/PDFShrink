@@ -660,6 +660,19 @@
     // コンテクストを元に戻す
     [NSGraphicsContext restoreGraphicsState];
     
+    CIImage *inCIImage= [[CIImage alloc] initWithBitmapImageRep:bitmapRep];
+    
+    CIFilter* _colorControlsFilter= [CIFilter filterWithName:@"CIColorControls"];
+    [_colorControlsFilter setDefaults];
+    [_colorControlsFilter setValue:[NSNumber numberWithFloat:1.0] forKey:@"inputSaturation"];
+    [_colorControlsFilter setValue:[NSNumber numberWithFloat:0.2] forKey:@"inputBrightness"];
+    [_colorControlsFilter setValue:[NSNumber numberWithFloat:1.5] forKey:@"inputContrast"];
+    
+    [_colorControlsFilter setValue:inCIImage forKey:@"inputImage"];
+    CIImage* outCIImage = [_colorControlsFilter valueForKey:@"outputImage"];
+    
+    NSBitmapImageRep* outBitmap=[[NSBitmapImageRep alloc] initWithCIImage:outCIImage];
+    
     // JPEGの圧縮率を設定
     NSDictionary *propJpeg =
     [NSDictionary dictionaryWithObjectsAndKeys:
@@ -668,7 +681,7 @@
      nil];
     
     // JPEGデータに変換
-    NSData *dataJpeg = [bitmapRep representationUsingType: NSJPEGFileType properties: propJpeg];
+    NSData *dataJpeg = [outBitmap representationUsingType: NSJPEGFileType properties: propJpeg];
     
     return dataJpeg;
 }
