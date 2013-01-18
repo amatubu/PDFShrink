@@ -465,7 +465,8 @@
                     status = [self executeUnixCommand:@"/usr/bin/python" withParams:params workingDir:tempDir];
                     
                     // 作成した mobi ファイルをコピー
-                    NSString *mobiFile = [tempDir stringByAppendingPathComponent:@"book_stripped.mobi"];
+                    NSString *mobiFile = [tempDir stringByAppendingPathComponent:
+                                          ( status == 0 ? @"book_stripped.mobi" : @"book.mobi" )];
                     NSString *outFile = [arg objectForKey:@"outFile"];
                     NSError *error;
 
