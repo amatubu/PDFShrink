@@ -25,6 +25,7 @@
 		2FB2D86D1616F762005BBFEF /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2FB2D86C1616F762005BBFEF /* icon.icns */; };
 		2FE61BAC16A2BB5300C2E909 /* CreateCBZ.sh in Resources */ = {isa = PBXBuildFile; fileRef = 2FE61BAA16A2B2BD00C2E909 /* CreateCBZ.sh */; };
 		2FE61BAE16A2C6BF00C2E909 /* image2opf.pl in Resources */ = {isa = PBXBuildFile; fileRef = 2FE61BAD16A2C6BF00C2E909 /* image2opf.pl */; };
+		2FF6338116A9640700B4C7E2 /* kindlestrip.py in Resources */ = {isa = PBXBuildFile; fileRef = 2FF6338016A9640700B4C7E2 /* kindlestrip.py */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		2FB2D86E1616F942005BBFEF /* ReadMe.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = ReadMe.rtf; sourceTree = "<group>"; };
 		2FE61BAA16A2B2BD00C2E909 /* CreateCBZ.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = CreateCBZ.sh; sourceTree = "<group>"; };
 		2FE61BAD16A2C6BF00C2E909 /* image2opf.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = image2opf.pl; sourceTree = "<group>"; };
+		2FF6338016A9640700B4C7E2 /* kindlestrip.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = kindlestrip.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +170,7 @@
 				2FB2D8221611D250005BBFEF /* main.m */,
 				2FB2D8241611D250005BBFEF /* PDFShrink-Prefix.pch */,
 				2FB2D8251611D250005BBFEF /* Credits.rtf */,
+				2FF6338016A9640700B4C7E2 /* kindlestrip.py */,
 				2FE61BAA16A2B2BD00C2E909 /* CreateCBZ.sh */,
 				2FE61BAD16A2C6BF00C2E909 /* image2opf.pl */,
 				2FA89FC416A44BFB00959BF6 /* Localizable.strings */,
@@ -275,6 +278,7 @@
 				2FE61BAC16A2BB5300C2E909 /* CreateCBZ.sh in Resources */,
 				2FE61BAE16A2C6BF00C2E909 /* image2opf.pl in Resources */,
 				2FA89FC216A44BFB00959BF6 /* Localizable.strings in Resources */,
+				2FF6338116A9640700B4C7E2 /* kindlestrip.py in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

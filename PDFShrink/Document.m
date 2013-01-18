@@ -457,8 +457,15 @@
                                                                    [arg objectForKey:@"outFile"], status];
                     [self displayAlert:message forWindow:[arg objectForKey:@"frontWindow"]];
                 } else {
+                    // 作成した mobi ファイルを kindlestrip で縮小
+                    script = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"kindlestrip.py"];
+                    params = [NSArray arrayWithObjects:script,
+                                                       @"book.mobi",
+                                                       @"book_stripped.mobi", nil];
+                    status = [self executeUnixCommand:@"/usr/bin/python" withParams:params workingDir:tempDir];
+                    
                     // 作成した mobi ファイルをコピー
-                    NSString *mobiFile = [tempDir stringByAppendingPathComponent:@"book.mobi"];
+                    NSString *mobiFile = [tempDir stringByAppendingPathComponent:@"book_stripped.mobi"];
                     NSString *outFile = [arg objectForKey:@"outFile"];
                     NSError *error;
 
