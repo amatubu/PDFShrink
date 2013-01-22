@@ -40,6 +40,22 @@
             [defaults setInteger:jpegQuality forKey:@"jpegQuality"];
         }
         
+        // 輝度
+        float brightness;
+        brightness = [defaults floatForKey:@"brightness"];
+        if ( brightness < -1.0 || brightness > 1.0 ) {
+            brightness = 0.0;
+            [defaults setFloat:brightness forKey:@"brightness"];
+        }
+        
+        // コントラスト
+        float contrast;
+        contrast = [defaults floatForKey:@"contrast"];
+        if ( contrast < 0.25 || contrast > 4.0 ) {
+            contrast = 1.0;
+            [defaults setFloat:contrast forKey:@"contrast"];
+        }
+        
         // kindlegen のパス
         NSString *pathToKindlegen;
 

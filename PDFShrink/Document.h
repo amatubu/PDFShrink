@@ -31,4 +31,13 @@
 - (IBAction)abortShrink:(id)sender;
 - (IBAction)exportToCBZ:(id)sender;
 - (IBAction)exportToMobi:(id)sender;
+
+typedef struct {
+    NSInteger maxWidth;
+    NSInteger maxHeight;
+    float jpegQuality; /* Between  0.0  and 1.0 */
+    BOOL adjustBrightnessContrast;
+    float brightness;  /* Between -1.0  and 1.0 */
+    float contrast;    /* Between  0.25 and 4.0 */
+} MyImagePreferences;
 @end

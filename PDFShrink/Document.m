@@ -262,11 +262,9 @@
 - (void)exportToPDFMain:(NSDictionary *)arg
 {
     // 設定を得る
-    NSInteger maxWidth;
-    NSInteger maxHeight;
-    NSNumber *jpegQuality;
-    
-    [self getMaxWidth:&maxWidth maxHeight:&maxHeight jpegQuality:&jpegQuality];
+    MyImagePreferences prefs;
+
+    [self getImagePreferences:&prefs];
     
     // プログレスバーを用意する
 	[self createProgressPanel:[arg objectForKey: @"frontWindow"]];
@@ -283,7 +281,7 @@
     // ページをループ
     for (NSUInteger i = 0; i < pageCount; i++) {
         // ページを取りだしてJPEGデータに変換
-        NSData *dataJpeg = [self getShrunkJPEGData:pdfDoc atIndex:i maxWidth:maxWidth maxHeight:maxHeight jpegQuality:jpegQuality];
+        NSData *dataJpeg = [self getShrunkJPEGData:pdfDoc atIndex:i imagePreferences:prefs];
         
         // できたPDFからイメージに
         NSImage *newImage = [[NSImage alloc] initWithData: dataJpeg];
@@ -314,11 +312,9 @@
 - (void)exportToCBZMain:(NSDictionary *)arg
 {
     // 設定を得る
-    NSInteger maxWidth;
-    NSInteger maxHeight;
-    NSNumber *jpegQuality;
+    MyImagePreferences prefs;
     
-    [self getMaxWidth:&maxWidth maxHeight:&maxHeight jpegQuality:&jpegQuality];
+    [self getImagePreferences:&prefs];
     
     // テンポラリディレクトリを取得
     NSString *tempDir = [self createTemporaryDirectory];
@@ -335,7 +331,7 @@
     // ページをループ
     for (NSUInteger i = 0; i < pageCount; i++) {
         // ページを取りだしてJPEGデータに変換
-        NSData *dataJpeg = [self getShrunkJPEGData:pdfDoc atIndex:i maxWidth:maxWidth maxHeight:maxHeight jpegQuality:jpegQuality];
+        NSData *dataJpeg = [self getShrunkJPEGData:pdfDoc atIndex:i imagePreferences:prefs];
         
         // テンポラリディレクトリに保存
         BOOL result = [dataJpeg writeToFile:[tempDir stringByAppendingPathComponent:
@@ -380,11 +376,9 @@
 - (void)exportToMobiMain:(NSDictionary *)arg
 {
     // 設定を得る
-    NSInteger maxWidth;
-    NSInteger maxHeight;
-    NSNumber *jpegQuality;
+    MyImagePreferences prefs;
     
-    [self getMaxWidth:&maxWidth maxHeight:&maxHeight jpegQuality:&jpegQuality];
+    [self getImagePreferences:&prefs];
     
     // テンポラリディレクトリを取得
     NSString *tempDir = [self createTemporaryDirectory];
@@ -401,7 +395,7 @@
     // ページをループ
     for (NSUInteger i = 0; i < pageCount; i++) {
         // ページを取りだしてJPEGデータに変換
-        NSData *dataJpeg = [self getShrunkJPEGData:pdfDoc atIndex:i maxWidth:maxWidth maxHeight:maxHeight jpegQuality:jpegQuality];
+        NSData *dataJpeg = [self getShrunkJPEGData:pdfDoc atIndex:i imagePreferences:prefs];;
         
         // テンポラリディレクトリに保存
         BOOL result = [dataJpeg writeToFile:[tempDir stringByAppendingPathComponent:
@@ -547,28 +541,43 @@
     return tempDirectoryPath;
 }
 
-// 最大サイズ、JPEGの画質を得る
-- (void)getMaxWidth:(NSInteger *)maxWidth maxHeight:(NSInteger *)maxHeight jpegQuality:(NSNumber **)jpegQuality
+// 画像の設定を得る
+- (void)getImagePreferences:(MyImagePreferences *)prefs
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-
-    *maxWidth = [defaults integerForKey:@"maxWidth"];
-    *maxHeight = [defaults integerForKey:@"maxHeight"];
-    NSInteger quality = [defaults integerForKey:@"jpegQuality"];
-
-    if ( *maxWidth <= 0 ) {
-        *maxWidth = 658;
-        [defaults setInteger:*maxWidth forKey:@"maxWidth"];
+    NSInteger quality;
+    
+    prefs->maxWidth = [defaults integerForKey:@"maxWidth"];
+    prefs->maxHeight = [defaults integerForKey:@"maxHeight"];
+    quality = [defaults integerForKey:@"jpegQuality"];
+    
+    prefs->brightness = [defaults floatForKey:@"brightness"];
+    prefs->contrast = [defaults floatForKey:@"contrast"];
+    
+    if ( prefs->maxWidth <= 0 ) {
+        prefs->maxWidth = 658;
+        [defaults setInteger:prefs->maxWidth forKey:@"maxWidth"];
     }
-    if ( *maxHeight <= 0 ) {
-        *maxHeight = 905;
-        [defaults setInteger:*maxHeight forKey:@"maxHeight"];
+    if ( prefs->maxHeight <= 0 ) {
+        prefs->maxHeight = 905;
+        [defaults setInteger:prefs->maxHeight forKey:@"maxHeight"];
     }
     if ( quality <= 0 || quality > 100 ) {
         quality = 80;
         [defaults setInteger:quality forKey:@"jpegQuality"];
     }
-    *jpegQuality = [[NSNumber alloc] initWithDouble:( (double)quality / (double)100.0 )];
+    prefs->jpegQuality = (float)quality / 100.0f;
+    
+    prefs->adjustBrightnessContrast = [defaults boolForKey:@"adjustBrightnessContrast"];
+    
+    if ( prefs->brightness < -1.0 || prefs->brightness > 1.0 ) {
+        prefs->brightness = 0.0;
+        [defaults setFloat:prefs->brightness forKey:@"brightness"];
+    }
+    if ( prefs->contrast < 0.25 || prefs->contrast > 4.0 ) {
+        prefs->contrast = 1.0;
+        [defaults setFloat:prefs->contrast forKey:@"contrast"];
+    }
 }
 
 // プログレスパネルを用意
@@ -583,7 +592,7 @@
 }
 
 // PDFの指定ページをJPEGデータとして取り出す
-- (NSData *)getShrunkJPEGData:(PDFDocument *)pdfDoc atIndex:(NSUInteger)i maxWidth:(NSInteger)maxWidth maxHeight:(NSInteger)maxHeight jpegQuality:(NSNumber *)jpegQuality
+- (NSData *)getShrunkJPEGData:(PDFDocument *)pdfDoc atIndex:(NSUInteger)i imagePreferences:(MyImagePreferences)prefs
 {
     // ページを取りだす
     PDFPage *page = [pdfDoc pageAtIndex:i];
@@ -599,17 +608,17 @@
     
     // 幅と高さを調整
     // 754x584 以内に
-    if ( size.width * maxHeight > size.height * maxWidth) {
+    if ( size.width * prefs.maxHeight > size.height * prefs.maxWidth) {
         // 横長
-        if ( size.width > maxWidth ) {
-            size.height = size.height * maxWidth / size.width;
-            size.width = maxWidth;
+        if ( size.width > prefs.maxWidth ) {
+            size.height = size.height * prefs.maxWidth / size.width;
+            size.width = prefs.maxWidth;
         }
     } else {
         // 縦長
-        if ( size.height > maxHeight ) {
-            size.width = size.width * maxHeight / size.height;
-            size.height = maxHeight;
+        if ( size.height > prefs.maxHeight ) {
+            size.width = size.width * prefs.maxHeight / size.height;
+            size.height = prefs.maxHeight;
         }
     }
     
@@ -660,28 +669,33 @@
     // コンテクストを元に戻す
     [NSGraphicsContext restoreGraphicsState];
     
-    CIImage *inCIImage= [[CIImage alloc] initWithBitmapImageRep:bitmapRep];
-    
-    CIFilter* _colorControlsFilter= [CIFilter filterWithName:@"CIColorControls"];
-    [_colorControlsFilter setDefaults];
-    [_colorControlsFilter setValue:[NSNumber numberWithFloat:1.0] forKey:@"inputSaturation"];
-    [_colorControlsFilter setValue:[NSNumber numberWithFloat:0.2] forKey:@"inputBrightness"];
-    [_colorControlsFilter setValue:[NSNumber numberWithFloat:1.5] forKey:@"inputContrast"];
-    
-    [_colorControlsFilter setValue:inCIImage forKey:@"inputImage"];
-    CIImage* outCIImage = [_colorControlsFilter valueForKey:@"outputImage"];
-    
-    NSBitmapImageRep* outBitmap=[[NSBitmapImageRep alloc] initWithCIImage:outCIImage];
+    NSBitmapImageRep *outBitmap;
+    if ( prefs.adjustBrightnessContrast ) {
+        // 輝度、コントラストを調整する
+        CIImage *inCIImage= [[CIImage alloc] initWithBitmapImageRep:bitmapRep];
+        
+        CIFilter* _colorControlsFilter= [CIFilter filterWithName:@"CIColorControls"];
+        [_colorControlsFilter setDefaults];
+        [_colorControlsFilter setValue:[NSNumber numberWithFloat:1.0] forKey:@"inputSaturation"];
+        [_colorControlsFilter setValue:[NSNumber numberWithFloat:prefs.brightness] forKey:@"inputBrightness"];
+        [_colorControlsFilter setValue:[NSNumber numberWithFloat:prefs.contrast] forKey:@"inputContrast"];
+        
+        [_colorControlsFilter setValue:inCIImage forKey:@"inputImage"];
+        CIImage* outCIImage = [_colorControlsFilter valueForKey:@"outputImage"];
+        
+        outBitmap = [[NSBitmapImageRep alloc] initWithCIImage:outCIImage];
+    }
     
     // JPEGの圧縮率を設定
     NSDictionary *propJpeg =
     [NSDictionary dictionaryWithObjectsAndKeys:
-     jpegQuality,
+     [NSNumber numberWithFloat:prefs.jpegQuality],
      NSImageCompressionFactor,
      nil];
     
     // JPEGデータに変換
-    NSData *dataJpeg = [outBitmap representationUsingType: NSJPEGFileType properties: propJpeg];
+    NSData *dataJpeg = [(prefs.adjustBrightnessContrast ? outBitmap : bitmapRep)
+                        representationUsingType: NSJPEGFileType properties: propJpeg];
     
     return dataJpeg;
 }
