@@ -13,10 +13,25 @@
 -(id) init
 {
     self = [super init];
-    if (self) {
-        // 初期設定
+    if ( self ) {
+        // 環境設定
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
+        NSString *defaultKindlegenPath = [[[[NSBundle mainBundle] bundlePath] stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"kindlegen"];
+        
+        // 設定の初期値
+        NSDictionary *appDefaults = [NSDictionary dictionaryWithObjectsAndKeys:
+                                     [NSNumber numberWithInt:658], @"maxWidth",
+                                     [NSNumber numberWithInt:905], @"maxHeight",
+                                     [NSNumber numberWithInt:80], @"jpegQuality",
+                                     [NSNumber numberWithBool:NO], @"adjustBrightnessContrast",
+                                     [NSNumber numberWithFloat:0.0], @"brightness",
+                                     [NSNumber numberWithFloat:1.0], @"contrast",
+                                     defaultKindlegenPath, @"kindlegenPath",
+                                     nil];
+        
+        [defaults registerDefaults:appDefaults];
+        
         // 最大の幅と高さ
         NSInteger maxWidth;
         NSInteger maxHeight;
@@ -61,9 +76,7 @@
 
         pathToKindlegen = [defaults stringForKey:@"kindlegenPath"];
         if ( pathToKindlegen == nil) {
-            NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
-            pathToKindlegen  = [[bundlePath stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"kindlegen"];
-            NSLog( @"%@", pathToKindlegen );
+            pathToKindlegen  = defaultKindlegenPath;
             [defaults setValue:pathToKindlegen forKey:@"kindlegenPath"];
         }
         
@@ -106,6 +119,9 @@
 
 - (IBAction) savePreferences:(id)sender
 {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults synchronize];
+    
     [_preferencesPanel close];
 }
 
