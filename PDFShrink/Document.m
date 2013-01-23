@@ -334,9 +334,11 @@
         NSData *dataJpeg = [self getShrunkJPEGData:pdfDoc atIndex:i imagePreferences:prefs];
         
         // テンポラリディレクトリに保存
-        BOOL result = [dataJpeg writeToFile:[tempDir stringByAppendingPathComponent:
-                                             [NSString stringWithFormat:@"%08ld.jpg", i]]
-                                atomically:YES];
+        NSString *jpegFile = [tempDir stringByAppendingPathComponent:
+                              [NSString stringWithFormat:@"%08ld.jpg", i]];
+        BOOL result = [dataJpeg writeToFile:jpegFile atomically:YES];
+        if ( !result )
+            NSLog( @"Failed to save page %ld to JPEG file '%@'.", i, jpegFile );
         
         // プログレスバーを進める
         [_progressIndicator setDoubleValue: ((double)i) / ((double)pageCount)];
@@ -397,10 +399,11 @@
         // ページを取りだしてJPEGデータに変換
         NSData *dataJpeg = [self getShrunkJPEGData:pdfDoc atIndex:i imagePreferences:prefs];;
         
-        // テンポラリディレクトリに保存
-        BOOL result = [dataJpeg writeToFile:[tempDir stringByAppendingPathComponent:
-                                             [NSString stringWithFormat:@"%08ld.jpg", i]]
-                                 atomically:YES];
+        NSString *jpegFile = [tempDir stringByAppendingPathComponent:
+                              [NSString stringWithFormat:@"%08ld.jpg", i]];
+        BOOL result = [dataJpeg writeToFile:jpegFile atomically:YES];
+        if ( !result )
+            NSLog( @"Failed to save page %ld to JPEG file '%@'.", i, jpegFile );
         
         // プログレスバーを進める
         [_progressIndicator setDoubleValue: ((double)i) / ((double)pageCount)];
