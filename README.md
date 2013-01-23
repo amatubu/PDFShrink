@@ -22,7 +22,7 @@ PDFShrink
 解像度の変更
 ------------
 
- PDFShrink > 環境設定(Preferences) を選択し、最大の幅(Max width)と最大の高さ(Max height)を指定します。
+ PDFShrink > 環境設定(Preferences) を選択し、「画像サイズ(Image size)」タブで最大の幅(Max width)と最大の高さ(Max height)を指定します。
 
  バージョン 1.1 より、電子書籍リーダーを選択すると最適な解像度を自動的に設定できるようになりました。
 
@@ -33,7 +33,22 @@ JPEG の画質(圧縮率)の変更
 
  バージョン 1.2 より、JPEG 画像の画質(圧縮率)を変更できるようになりました。
  
- PDFShrink > 環境設定(Preferences) を選択し、JPEG の画質(JPEG quality)を指定します。
+ PDFShrink > 環境設定(Preferences) を選択し、「画質 / コントラスト(Quality / Contrast)」タブでJPEG の画質(JPEG quality)を指定します。
+
+輝度、コントラストの調整
+------------------------
+
+ バージョン 1.5 より、画像の輝度とコントラストを調整できるようになりました。スキャンした画像等で、全体がグレーっぽくなっている場合などに有用と思います。
+ 
+ PDFShrink > 環境設定(Preferences) を選択し、「画質 / コントラスト(Quality / Contrast)」タブで、調整を行うかどうか、輝度(Brightness)、コントラスト(Contast)を調節します。
+ 
+### 輝度(Brightness)
+
+ -1.0 から 1.0 の範囲で指定します。数値が大きいほど明るく、小さいほど暗くなります。0 を指定すると、輝度の調整を行ないません。
+
+### コントラスト(Contrast)
+
+ 0.25 から 4.0 の範囲で指定します。数値が大きいほどコントラストが高く(明るいところはより明るく、暗いところはより暗く)なります。
 
 mobi の出力
 -----------
@@ -43,7 +58,7 @@ mobi の出力
  
  Amazon.com が提供する KindleGen というツールをダウンロードして利用します。展開後、「kindlegen」というファイルを PDFShrink と同じフォルダに保存してください。別のディレクトリに保存したものを利用する場合は、設定から変更してください。
  
- PDFShrink > 環境設定(Preferences) を選択し、KindleGen のパス(Path to KindleGen)を指定します。
+ PDFShrink > 環境設定(Preferences) を選択し、「その他(Others)」タブから KindleGen のパス(Path to KindleGen)を指定します。
 
 ### KindleGen のダウンロード先
  
@@ -80,4 +95,4 @@ mobi の出力
  にて配布します。
 
 
-2013.1.18 naoki iimura
+2013.1.23 naoki iimura
