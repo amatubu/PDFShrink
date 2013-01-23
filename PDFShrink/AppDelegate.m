@@ -109,4 +109,17 @@
     [_preferencesPanel close];
 }
 
+// スライダーの値が変更されたとき
+- (IBAction) sliderValueChanged:(id)sender {
+    NSSlider *slider = (NSSlider *)sender;
+
+    if ( [slider tag] == 1 ) {
+        // JPEG 画質のスライダーは、整数値のみを許す
+        [slider setIntValue:roundf( [slider floatValue] )];
+    } else {
+        // それ以外のスライダーは、小数第2位まで許す
+        [slider setFloatValue:roundf( [slider floatValue] * 100.0 ) / 100.0];
+    }
+}
+
 @end
