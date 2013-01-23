@@ -664,7 +664,7 @@
     [NSGraphicsContext setCurrentContext: context];
     
     // PDFページのイメージを描画
-    [pdfImageRep drawInRect: NSMakeRect( 0, 0, size.width, size.height)];
+    [pdfImageRep drawInRect: NSMakeRect( 0, 0, size.width, size.height )];
     
     // コンテクストを元に戻す
     [NSGraphicsContext restoreGraphicsState];
