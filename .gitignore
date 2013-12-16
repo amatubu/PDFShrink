@@ -1,0 +1,9 @@
+*.rtf
+build/*
+*.xcodeproj/project.xcworkspace/*
+*.xcodeproj/xcuserdata/*
+kindlegen
+*.zip
+*.jpeg
+*.jpg
+*.png
