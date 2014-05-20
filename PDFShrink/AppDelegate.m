@@ -28,6 +28,7 @@
                                      [NSNumber numberWithFloat:0.0], @"brightness",
                                      [NSNumber numberWithFloat:1.0], @"contrast",
                                      defaultKindlegenPath, @"kindlegenPath",
+									 [NSNumber numberWithBool:YES], @"useGrayScaleImages",
                                      nil];
         
         [defaults registerDefaults:appDefaults];

@@ -31,6 +31,7 @@
 - (IBAction)abortShrink:(id)sender;
 - (IBAction)exportToCBZ:(id)sender;
 - (IBAction)exportToMobi:(id)sender;
+- (IBAction)exportToEPUB3:(id)sender;
 
 typedef struct {
     NSInteger maxWidth;
@@ -39,5 +40,6 @@ typedef struct {
     BOOL adjustBrightnessContrast;
     float brightness;  /* Between -1.0  and 1.0 */
     float contrast;    /* Between  0.25 and 4.0 */
+	BOOL useGrayScaleImages;
 } MyImagePreferences;
 @end

@@ -253,6 +253,68 @@
                   }];
 }
 
+// PDFの画像を縮小してEPUB3の固定フォーマットで保存する
+- (IBAction)exportToEPUB3:(id)sender {
+    // フロントウィンドウ
+    NSWindow *myWindow = [[[self windowControllers] objectAtIndex: 0] window];
+    
+    // ファイル名
+    NSString *name = [[self fileURL] path];
+    
+    // 新しいファイル名の候補
+    NSString *newPath = [name stringByDeletingLastPathComponent];
+    NSString *newName = [name lastPathComponent];
+    newName = [newName
+               stringByReplacingOccurrencesOfString: @".pdf"
+               withString: @".epub"
+               options: NSCaseInsensitiveSearch
+               range: NSMakeRange(0, [newName length] )
+               ];
+    
+    // 保存ダイアログの表示
+    NSSavePanel *panel = [NSSavePanel savePanel];
+    
+    // デフォルトのファイル名とパス
+    [panel setNameFieldStringValue: newName];
+    [panel setDirectoryURL: [NSURL fileURLWithPath: newPath]];
+    
+    // カスタムビューを追加
+    [panel setAccessoryView:_exportToMobiAccessoryView];
+    if (pdfTitle != nil) [_pdfTitle setStringValue:pdfTitle];
+    if (pdfAuthor != nil) [_pdfAuthor setStringValue:pdfAuthor];
+    [_pdfPageDirection selectCellAtRow:pdfPageDirection column:0];
+    
+    // 保存ダイアログの処理
+    [panel beginSheetModalForWindow: myWindow
+                  completionHandler:^(NSInteger result) {
+                      if ( result == NSFileHandlingPanelOKButton ) {
+                          // ファイル名を得る
+                          NSURL *file = [panel URL];
+                          NSString *newFile = [file path];
+                          
+                          // その他の設定を得る
+                          pdfTitle = [_pdfTitle stringValue];
+                          pdfAuthor = [_pdfAuthor stringValue];
+                          pdfPageDirection = [_pdfPageDirection selectedRow];
+                          
+                          [panel close];
+                          
+                          NSDictionary *arg = [NSDictionary dictionaryWithObjectsAndKeys:
+                                               [_pdfView document], @"pdfDoc",
+                                               newFile, @"outFile",
+                                               myWindow, @"frontWindow",
+                                               pdfTitle, @"title",
+                                               pdfAuthor, @"author",
+                                               (pdfPageDirection == 1 ? @"rtl" : @"ltr"), @"pageDirection",
+                                               nil];
+                          needAbort = FALSE;
+                          [NSThread detachNewThreadSelector:@selector(exportToEPUB3Main:)
+                                                   toTarget:self
+                                                 withObject:arg];
+                      }
+                  }];
+}
+
 // PDF画像の縮小を中止する
 - (IBAction)abortShrink:(id)sender {
     needAbort = YES;
@@ -496,6 +558,94 @@
 	[NSApp endSheet:_progressPanel];
 }
 
+// EPUB3へのエクスポートメイン
+- (void)exportToEPUB3Main:(NSDictionary *)arg
+{
+    // 設定を得る
+    MyImagePreferences prefs;
+    
+    [self getImagePreferences:&prefs];
+    
+    // テンポラリディレクトリを取得
+    NSString *tempDir = [self createTemporaryDirectory];
+    
+    // プログレスバーを用意する
+	[self createProgressPanel:[arg objectForKey: @"frontWindow"]];
+    
+    // PDFドキュメントを得る
+    PDFDocument *pdfDoc = [arg objectForKey: @"pdfDoc"];
+    
+    // ページ数を取得
+    NSUInteger pageCount = [pdfDoc pageCount];
+    
+    // ページをループ
+    for (NSUInteger i = 0; i < pageCount; i++) {
+        // ページを取りだしてJPEGデータに変換
+        NSData *dataJpeg = [self getShrunkJPEGData:pdfDoc atIndex:i imagePreferences:prefs];;
+        
+        NSString *jpegFile = [tempDir stringByAppendingPathComponent:
+                              [NSString stringWithFormat:@"%08ld.jpg", i]];
+        BOOL result = [dataJpeg writeToFile:jpegFile atomically:YES];
+        if ( !result )
+            NSLog( @"Failed to save page %ld to JPEG file '%@'.", i, jpegFile );
+        
+        // プログレスバーを進める
+        [_progressIndicator setDoubleValue: ((double)i) / ((double)pageCount)];
+        
+        // 中断なら止める
+        if ( needAbort ) break;
+    }
+    
+    if ( !needAbort ) {
+        // mobi に変換
+		
+        // 画像リストからOPF、HTMLファイルを作成
+        NSString *script = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"image2epub3.pl"];
+        NSString *title = [arg objectForKey:@"title"];
+        NSString *author = [arg objectForKey:@"author"];
+        NSString *pageDirectionString = [arg objectForKey:@"pageDirection"];
+        NSArray *params = [NSArray arrayWithObjects:@"-CA", // ARGV に utf8 フラグをつける
+						   script,
+						   title,
+						   author,
+						   pageDirectionString, nil];
+        
+        int status = [self executeUnixCommand:@"/usr/bin/perl" withParams:params workingDir:tempDir];
+        NSLog( @"Result of images2epub3 : %d", status );
+		
+        if ( status != 0 ) {
+            NSString *message = [NSString stringWithFormat:NSLocalizedString( @"error_failed_to_export_epub3",
+																			 @"Error message that failed to export epub3." ),
+								 [arg objectForKey:@"outFile"], status];
+            [self displayAlert:message forWindow:[arg objectForKey:@"frontWindow"]];
+        } else {
+			// zip で圧縮する
+			NSString *command = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"CreateEPUB3.sh"];
+			NSString *outFile = [arg objectForKey:@"outFile"];
+			NSArray *params = [NSArray arrayWithObjects:command, outFile, nil];
+			
+			int status = [self executeUnixCommand:@"/bin/sh" withParams:params workingDir:tempDir];
+			NSLog( @"Result of CreateEPUB3 : %d", status );
+			if ( status != 0 ) {
+				NSString *message = [NSString stringWithFormat:NSLocalizedString( @"error_failed_to_export_epub3",
+																				 @"Error message that failed to export epub3" ),
+									 outFile, status];
+				[self displayAlert:message
+						 forWindow:[arg objectForKey: @"frontWindow"]];
+			}
+        }
+    }
+    
+    // テンポラリディレクトリを削除
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error;
+    [fileManager removeItemAtPath:tempDir
+                            error:&error];
+    
+    // プログレスバーを閉じる
+	[NSApp endSheet:_progressPanel];
+}
+
 // プログレスバーのシートを閉じる
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
@@ -581,6 +731,8 @@
         prefs->contrast = 1.0;
         [defaults setFloat:prefs->contrast forKey:@"contrast"];
     }
+
+	prefs->useGrayScaleImages = [defaults boolForKey:@"useGrayScaleImages"];
 }
 
 // プログレスパネルを用意
@@ -628,7 +780,7 @@
     // ビットマップイメージを作成
     NSBitmapImageRep *bitmapRep;
     
-    if ( i == 0 ) {
+    if ( i == 0 || !prefs.useGrayScaleImages ) {
         // 1ページ目はカラーのまま
         bitmapRep =
         [[NSBitmapImageRep alloc]
